@@ -1,0 +1,57 @@
+const days = [
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+  23, 24, 25, 26, 27, 28, 29, 30,
+];
+const selectedMonth = 10; // значение, полученное от ползователя
+const selectedYear = 2023; // значение, полученное от ползователя
+
+Date.prototype.daysInMonth = function () {
+  return 32 - new Date(selectedYear, selectedMonth, 32).getDate();
+};
+
+console.log(Date.prototype.daysInMonth()); // количесвто дней в месяце, который выбрал пользователь = num
+
+const getDaysOfMonthUserSelected = (num) => {
+  let days = [];
+  for (let i = 1; i <= num; i++) {
+    days.push(i);
+  }
+  return days;
+};
+
+console.log(
+  'массив для рисования календаря',
+  getDaysOfMonthUserSelected(Date.prototype.daysInMonth()),
+);
+
+const getDayOfFirstDate = (year, monthIndex) => {
+  let date = new Date(year, monthIndex, 1);
+  return date.getDay();
+};
+
+console.log(
+  'день недели 1го числа месяца',
+  getDayOfFirstDate(selectedYear, selectedMonth),
+);
+
+export const getStylesCalendar = (arr) => {
+  let col = 3 - 1; // приходит мз функции день недели 1 числа выбранного месяца
+  let res = [];
+  let row = 3;
+  for (let i = 0; i < arr.length; i++) {
+    col++;
+    res.push({
+      gridArea: `${row}/${col}`,
+      justifySelf: 'center',
+      '&:focus': {
+        cursor: 'pointer',
+      },
+    });
+    if (col > 6) {
+      col = 0;
+      row++;
+    }
+  }
+  return res;
+};
+console.log(getStylesCalendar(days));

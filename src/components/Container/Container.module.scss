@@ -1,0 +1,11 @@
+.root {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  min-height: 100%;
+  background-image: url('../../assets/images/black_car.jpg');
+  background-size: cover;
+  //background-repeat: no-repeat;
+  //background-color: #000000;
+  //background-position: center bottom;
+}
