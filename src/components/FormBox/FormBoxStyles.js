@@ -14,7 +14,7 @@ export const useStyles = createUseStyles(() => {
       gridTemplateRows: 'repeat(3, 1fr)',
       gridTemplateColumns: '1fr',
       backgroundColor: '#000000',
-      border: '1px solid #ffffff',
+      border: '1px solid #9c27b0',
       borderRadius: '1.4em',
       fontSize: '1.4em',
       '@media (max-width: 870px)': {

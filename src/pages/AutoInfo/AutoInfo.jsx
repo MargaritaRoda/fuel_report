@@ -4,10 +4,25 @@ import Button from '@mui/material/Button';
 import { Container } from '../../components/Container';
 import { useStyles } from './AutoInfoStyles';
 import { Box, TextField } from '@mui/material';
+import {useDispatch} from "react-redux";
+import {addAuto} from "../../store/slicers/auto.slicer";
+import {addLicense} from "../../store/slicers/license.slicer";
+import {useNavigate} from "react-router-dom";
 
 export const AutoInfo = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
   const classes = useStyles();
-  const handleGetAutoInfo = () => {};
+  const handleGetAutoInfo = (event) => {
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const data = Object.fromEntries(formData.entries());
+      const {auto, license } = data;
+      dispatch(addAuto({ auto }));
+      dispatch(addLicense({ license }));
+      navigate('/InitialAutoData');
+
+  };
 
   return (
     <Container className={classes.formContainer}>
@@ -18,10 +33,16 @@ export const AutoInfo = () => {
         Вернуться на предыдущий этап
       </Button>
 
-      <Box component="form" autoComplete="off" className={classes.form}>
+      <Box
+        component="form"
+        autoComplete="off"
+        className={classes.form}
+        onSubmit={handleGetAutoInfo}
+      >
         <h3 className={classes.formTitle}>Введите данные автомобиля</h3>
         <TextField
           id="auto"
+          name='auto'
           label="Автомобиль"
           variant="outlined"
           required={true}
@@ -40,6 +61,7 @@ export const AutoInfo = () => {
         />
         <TextField
           id="license"
+          name='license'
           label="Водительское удостоверение"
           variant="outlined"
           required={true}
@@ -59,7 +81,7 @@ export const AutoInfo = () => {
 
         <Button
           variant="contained"
-          onSubmit={handleGetAutoInfo}
+          type="submit"
           className={classes.MuiButtonBaseRootMuiButtonRootFormBtn}
         >
           Подтвердить

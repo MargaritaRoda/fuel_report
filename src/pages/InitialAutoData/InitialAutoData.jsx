@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Button from '@mui/material/Button';
 import { Container } from '../../components/Container';
@@ -12,21 +12,69 @@ import {
   TextField,
 } from '@mui/material';
 import { Calendar } from '../../components/Calendar';
+import { useDispatch, useSelector } from 'react-redux';
+import { addMonth } from '../../store/slicers/month.slicer';
+import { addYear } from '../../store/slicers/year.slicer';
+import { daysSelector } from '../../store/selectors/days.selector';
+import { setMileage } from '../../store/slicers/mileage.slicer';
+import { setFuelReserve } from '../../store/slicers/fuelReserve.slicer';
+import { selectorMileage } from '../../store/selectors/mileage.selector';
+import { selectorFuelReserve } from '../../store/selectors/fuelReserve.selector';
+import { useNavigate } from 'react-router-dom';
 
 export const InitialAutoData = () => {
-  const [month, setMonth] = React.useState('');
-  const [year, setYear] = React.useState('');
+  const classes = useStyles();
+  const regExp = new RegExp(/^-?(0|[1-9]+)(?:[.,]\d{1,2}|)$/);
 
-  const handleChange = (event) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const selectedDays = useSelector(daysSelector);
+  const selectedMileage = useSelector(selectorMileage);
+  const selectedFuelReserve = useSelector(selectorFuelReserve);
+  const [month, setMonth] = useState('');
+  const [year, setYear] = useState('');
+
+  const handleChangeMonth = (event) => {
     setMonth(event.target.value);
-    console.log(parseInt(event.target.value));
+    const objMonth = JSON.parse(event.target.value);
+    dispatch(
+      addMonth({
+        nameMonth: objMonth.nameMonth,
+        numberMonth: parseInt(objMonth.numberMonth),
+      }),
+    );
+    // console.log(objMonth);
   };
   const handleChangeYear = (event) => {
     setYear(event.target.value);
+    dispatch(addYear(parseInt(event.target.value)));
   };
 
-  const classes = useStyles();
-  const handleGetAutoInfo = () => {};
+  const handleSetMileage = (event) => {
+    event.preventDefault();
+    const numMileage = parseInt(event.target.value);
+    if (regExp.test(numMileage)) {
+      dispatch(setMileage({ mileage: numMileage }));
+    }
+  };
+
+  const handleSetFuelReserve = (event) => {
+    event.preventDefault();
+    const strFuelReverse = event.target.value.replace(',', '.');
+    const numFuelReserve = parseFloat(strFuelReverse);
+    console.log(regExp.test(event.target.value));
+    if (regExp.test(numFuelReserve) && numFuelReserve <= 55) {
+      dispatch(setFuelReserve({ fuelReserve: numFuelReserve }));
+    }
+  };
+
+  const handleGetAutoInfo = (event) => {
+    event.preventDefault();
+    if (selectedDays && selectedMileage && selectedFuelReserve) {
+      navigate('/FuelTripData');
+    }
+  };
 
   return (
     <Container className={classes.formContainer}>
@@ -40,10 +88,12 @@ export const InitialAutoData = () => {
         <h3 className={classes.formTitle}>Введите начальные показатели</h3>
         <TextField
           id="mileage"
+          name="mileage"
           label="Начальный показатель спидометра"
           variant="outlined"
           required={true}
           placeholder="12345"
+          onChange={handleSetMileage}
           helperText="Введите начальный показатель спидометра"
           sx={{
             '& .MuiFormHelperText-root': {
@@ -57,11 +107,13 @@ export const InitialAutoData = () => {
           }}
         />
         <TextField
-          id="fuelReserv"
+          id="fuelReserve"
+          name="fuelReserve"
           label="Остаток топлива с прошлого месяца"
           variant="outlined"
           required={true}
           placeholder="7,34"
+          onChange={handleSetFuelReserve}
           helperText="Введите остаток топлива с прошлого месяца"
           sx={{
             '& .MuiFormHelperText-root': {
@@ -89,20 +141,44 @@ export const InitialAutoData = () => {
               id="month"
               value={month}
               label="month"
-              onChange={handleChange}
+              onChange={handleChangeMonth}
             >
-              <MenuItem value={'0'}>Январь</MenuItem>
-              <MenuItem value={'1'}>Февраль</MenuItem>
-              <MenuItem value={'2'}>Март</MenuItem>
-              <MenuItem value={'3'}>Апрель</MenuItem>
-              <MenuItem value={'4'}>Май</MenuItem>
-              <MenuItem value={'5'}>Июнь</MenuItem>
-              <MenuItem value={'6'}>Июль</MenuItem>
-              <MenuItem value={'7'}>Август</MenuItem>
-              <MenuItem value={'8'}>Сентябрь</MenuItem>
-              <MenuItem value={'9'}>Октябрь</MenuItem>
-              <MenuItem value={'10'}>Ноябрь</MenuItem>
-              <MenuItem value={'11'}>Декабрь</MenuItem>
+              <MenuItem value={'{"nameMonth": "Январь", "numberMonth": "0"}'}>
+                Январь
+              </MenuItem>
+              <MenuItem value={'{"nameMonth": "Февраль", "numberMonth": "1"}'}>
+                Февраль
+              </MenuItem>
+              <MenuItem value={'{"nameMonth": "Март", "numberMonth": "2"}'}>
+                Март
+              </MenuItem>
+              <MenuItem value={'{"nameMonth": "Апрель", "numberMonth": "3"}'}>
+                Апрель
+              </MenuItem>
+              <MenuItem value={'{"nameMonth": "Май", "numberMonth": "4"}'}>
+                Май
+              </MenuItem>
+              <MenuItem value={'{"nameMonth": "Июнь", "numberMonth": "5"}'}>
+                Июнь
+              </MenuItem>
+              <MenuItem value={'{"nameMonth": "Июль", "numberMonth": "6"}'}>
+                Июль
+              </MenuItem>
+              <MenuItem value={'{"nameMonth": "Август", "numberMonth": "7"}'}>
+                Август
+              </MenuItem>
+              <MenuItem value={'{"nameMonth": "Сентябрь", "numberMonth": "8"}'}>
+                Сентябрь
+              </MenuItem>
+              <MenuItem value={'{"nameMonth": "Октябрь", "numberMonth": "9"}'}>
+                Октябрь
+              </MenuItem>
+              <MenuItem value={'{"nameMonth": "Ноябрь", "numberMonth": "10"}'}>
+                Ноябрь
+              </MenuItem>
+              <MenuItem value={'{"nameMonth": "Декабрь", "numberMonth": "11"}'}>
+                Декабрь
+              </MenuItem>
             </Select>
           </FormControl>
 
@@ -123,13 +199,16 @@ export const InitialAutoData = () => {
 
         <Button
           variant="contained"
-          onSubmit={handleGetAutoInfo}
+          type="button"
+          onClick={handleGetAutoInfo}
           className={classes.MuiButtonBaseRootMuiButtonRootFormBtn}
         >
           Подтвердить
         </Button>
       </Box>
-      <Calendar className={classes.formCalendarInitial} />
+      {month && year ? (
+        <Calendar className={classes.formCalendarInitial} />
+      ) : null}
     </Container>
   );
 };
