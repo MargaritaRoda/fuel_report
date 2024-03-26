@@ -1,8 +1,6 @@
-import React from 'react';
+import React, {MouseEvent} from 'react';
 import {useStyles} from './CalendarStyles';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import Button from '@mui/material/Button';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectMonth} from '../../store/selectors/month.selector';
 import {toggleCalendarDay} from '../../store/slicers/calendar.slicer';
@@ -73,11 +71,13 @@ import {selectYear} from '../../store/selectors/year.selector';
 //   },
 // ];
 
-const week = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+const week: string[] = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 
+interface CalendarProps {
+    className?: string,
+}
 
-
-export const Calendar = ({ className }) => {
+export const Calendar: React.FC<CalendarProps> = ({ className }) => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
@@ -87,15 +87,15 @@ export const Calendar = ({ className }) => {
 
   const selectedMonth = useSelector(selectMonth);
   const selectedYear = useSelector(selectYear);
-  const days = getDaysOfMonthUserSelected(
+  const days: number[] = getDaysOfMonthUserSelected(
     selectedYear,
     selectedMonth.numberMonth,
   );
 
 
 
-  const handleGetDay = (event) => {
-    const newDay = parseInt(event.target.innerText); // type number
+  const handleGetDay = (event: MouseEvent<HTMLDivElement>) => {
+    const newDay: number = parseInt(event.currentTarget.innerText); // type number
     dispatch(toggleCalendarDay( newDay ));
   };
 
@@ -142,7 +142,4 @@ export const Calendar = ({ className }) => {
     </div>
   );
 };
-Calendar.propTypes = {
-  className: PropTypes.string,
-  onSubmit: PropTypes.func,
-};
+

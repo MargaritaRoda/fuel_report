@@ -8,7 +8,7 @@ const PUBLIC_URL = '';
 const IS_DEV = process.env.NODE_ENV !== 'production';
 
 const config = {
-  entry: path.resolve(__dirname, '../src/index.js'),
+  entry: path.resolve(__dirname, '../src/index.ts'),
   output: {
     clean: true,
     path: path.resolve(__dirname, '../dist'),
@@ -51,6 +51,11 @@ const config = {
         use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
+        test: /\.(ts|tsx)?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
@@ -64,7 +69,7 @@ const config = {
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.tsx', '.ts', '.js', '.jsx'],
   },
   plugins: [
     new HtmlWebpackPlugin({

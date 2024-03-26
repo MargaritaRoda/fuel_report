@@ -1,5 +1,5 @@
-import { createUseStyles } from 'react-jss';
-
+import { createUseStyles, Styles } from 'react-jss';
+type StyleKey = 'calendarScheme' | 'calendarTitle' | 'mo'| 'tu'| 'we'| 'th' | 'fr'| 'sa' | 'su' |'dateActive'| 'dayHover' | 'MuiButtonBaseRootMuiButtonRootFormBtn'
 export const useStyles = createUseStyles(() => {
   return {
     calendarScheme: {
@@ -71,5 +71,5 @@ export const useStyles = createUseStyles(() => {
         fontSize: '0.5em',
       },
     },
-  };
+  } as Styles<StyleKey>;
 });

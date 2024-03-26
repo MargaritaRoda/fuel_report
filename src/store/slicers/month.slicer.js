@@ -6,7 +6,7 @@ const month = createSlice({
     name: 'month',
     initialState: INITIAL_STATE,
     reducers: {
-        addMonth: (state, { payload: {nameMonth, numberMonth} }) => ( {nameMonth, numberMonth} ),
+        addMonth: (state, { payload: {nameMonth, numberMonth} }) => ( {nameMonth, numberMonth: numberMonth + 1} ),
     },
 });
 const { actions } = month;

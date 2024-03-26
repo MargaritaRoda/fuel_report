@@ -1,4 +1,6 @@
-import { createUseStyles } from 'react-jss';
+import { createUseStyles, Styles } from 'react-jss';
+
+type StyleKey = 'form' | 'formTitle' | 'MuiButtonBaseRootMuiButtonRootFormBtn';
 
 export const useStyles = createUseStyles(() => {
   return {
@@ -38,5 +40,5 @@ export const useStyles = createUseStyles(() => {
         fontSize: '0.5em',
       },
     },
-  };
+  } as Styles<StyleKey>;
 });

@@ -5,18 +5,19 @@ const days = [
 const selectedMonth = 10; // значение, полученное от ползователя
 const selectedYear = 2023; // значение, полученное от ползователя
 
-Date.prototype.daysInMonth = function (selectedYear, selectedMonth ) {
-  return 32 - new Date(selectedYear, selectedMonth, 32).getDate();
-};
+function daysInMonth(year: number, month: number): number {
+  return new Date(year, month + 1, 0).getDate();
+}
 
-console.log(Date.prototype.daysInMonth()); // количесвто дней в месяце, который выбрал пользователь = num
+// Date.prototype.daysInMonth = function (selectedYear: number, selectedMonth: number ): number {
+//   return 32 - new Date(selectedYear, selectedMonth, 32).getDate();
+// };
 
-export const getDaysOfMonthUserSelected = (selectedYear, selectedMonth) => {
-  const num = Date.prototype.daysInMonth(selectedYear, selectedMonth);
-  let days = [];
-  for (let i = 1; i <= num; i++) {
-    days.push(i);
-  }
+//console.log(Date.prototype.daysInMonth()); // количесвто дней в месяце, который выбрал пользователь = num
+
+export const getDaysOfMonthUserSelected = (selectedYear: number, selectedMonth: number): number[] => {
+  const num: number = daysInMonth(selectedYear, selectedMonth);
+  const days: number[] = Array.from({ length: num }, (_, index) => index + 1);
   return days;
 };
 
@@ -25,7 +26,7 @@ console.log(
   getDaysOfMonthUserSelected(selectedYear, selectedMonth),
 );
 
-const getDayOfFirstDate = (year, monthIndex) => {
+const getDayOfFirstDate = (year: number, monthIndex: number): number => {
   let date = new Date(year, monthIndex, 1);
   return date.getDay();
 };
@@ -35,7 +36,7 @@ console.log(
   getDayOfFirstDate(selectedYear, selectedMonth),
 );
 
-export const getStylesCalendar = (arr, selectedYear, selectedMonth) => {
+export const getStylesCalendar = (arr: number[], selectedYear: number, selectedMonth: number) => {
   let col = getDayOfFirstDate(selectedYear, selectedMonth) - 1;// приходит мз функции день недели 1 числа выбранного месяца 3-1
   if (col< 0) {
     col=6
@@ -47,6 +48,12 @@ export const getStylesCalendar = (arr, selectedYear, selectedMonth) => {
     res.push({
       gridArea: `${row}/${col}`,
       placeSelf: 'center',
+      padding: '5px',
+      cursor: 'pointer',
+      borderRadius: '50%',
+      width: '36px', // Fixed width for circular area
+      height: '36px', // Fixed height for circular area
+      lineHeight: '29px',
       '&:hover': {
         color: '#9c27b0',
       },
@@ -58,4 +65,4 @@ export const getStylesCalendar = (arr, selectedYear, selectedMonth) => {
   }
   return res;
 };
-console.log(getStylesCalendar(days));
+console.log(getStylesCalendar(days, selectedYear, selectedMonth));

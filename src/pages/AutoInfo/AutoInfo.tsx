@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FormEvent} from 'react';
 
 import Button from '@mui/material/Button';
 import { Container } from '../../components/Container';
@@ -13,10 +13,14 @@ export const AutoInfo = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
   const classes = useStyles();
-  const handleGetAutoInfo = (event) => {
+  const handleGetAutoInfo = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      const formData = new FormData(event.target);
-      const data = Object.fromEntries(formData.entries());
+      const formData = new FormData(event.currentTarget);
+      const data: Record<string, string> = {};
+      formData.forEach((value, key) => {
+          data[key] = value.toString();
+      });
+      // const data = Object.fromEntries(formData.entries());
       const {auto, license } = data;
       dispatch(addAuto({ auto }));
       dispatch(addLicense({ license }));

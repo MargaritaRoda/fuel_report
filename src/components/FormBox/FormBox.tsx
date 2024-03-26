@@ -1,12 +1,17 @@
-import React from 'react';
+import React, {FormEvent, ReactNode} from 'react';
 import { Box } from '@mui/material';
 import Button from '@mui/material/Button';
 import { Container } from '../Container';
 import { useStyles } from './FormBoxStyles';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-export const FormBox = ({
+interface FormBoxProps {
+  children?: ReactNode;
+  textTitle: string;
+  className?: string;
+  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+}
+export const FormBox: React.FC<FormBoxProps>  = ({
   children,
   textTitle,
   className,
@@ -36,9 +41,3 @@ export const FormBox = ({
   );
 };
 
-FormBox.propTypes = {
-  children: PropTypes.any,
-  onSubmit: PropTypes.func,
-  textTitle: PropTypes.string,
-  className: PropTypes.string,
-};
