@@ -1,10 +1,11 @@
 import { createUseStyles } from 'react-jss';
 
-export const useStyles = createUseStyles(() => {
+type StyleKey = 'FuelTripContainer' | 'tableForm';
+export const useStyles = createUseStyles<StyleKey>(() => {
   return {
     FuelTripContainer: {
       gridTemplateRows: '10% 90%',
-      gridRowGap: '20px',
+      rowGap: '20px',
     },
     tableForm: {
       marginBottom: '100px',
@@ -13,3 +14,4 @@ export const useStyles = createUseStyles(() => {
     },
   };
 });
+

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 
 import Button from '@mui/material/Button';
 import { Container } from '../../components/Container';
@@ -9,6 +9,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  SelectChangeEvent,
   TextField,
 } from '@mui/material';
 import { Calendar } from '../../components/Calendar';
@@ -35,7 +36,10 @@ export const InitialAutoData = () => {
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
 
-  const handleChangeMonth = (event) => {
+  const handleChangeMonth = (
+    event: SelectChangeEvent<string>,
+    child: ReactNode,
+  ) => {
     setMonth(event.target.value);
     const objMonth = JSON.parse(event.target.value);
     dispatch(
@@ -46,30 +50,33 @@ export const InitialAutoData = () => {
     );
     // console.log(objMonth);
   };
-  const handleChangeYear = (event) => {
+  const handleChangeYear = (
+    event: SelectChangeEvent<string>,
+    child: ReactNode,
+  ) => {
     setYear(event.target.value);
     dispatch(addYear(parseInt(event.target.value)));
   };
 
-  const handleSetMileage = (event) => {
+  const handleSetMileage = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     const numMileage = parseInt(event.target.value);
-    if (regExp.test(numMileage)) {
-      dispatch(setMileage({ mileage: numMileage }));
+    if (regExp.test(String(numMileage))) {
+      dispatch(setMileage(numMileage));
     }
   };
 
-  const handleSetFuelReserve = (event) => {
+  const handleSetFuelReserve = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     const strFuelReverse = event.target.value.replace(',', '.');
     const numFuelReserve = parseFloat(strFuelReverse);
     console.log(regExp.test(event.target.value));
-    if (regExp.test(numFuelReserve) && numFuelReserve <= 55) {
-      dispatch(setFuelReserve({ fuelReserve: numFuelReserve }));
+    if (regExp.test(String(numFuelReserve)) && numFuelReserve <= 55) {
+      dispatch(setFuelReserve(numFuelReserve));
     }
   };
 
-  const handleGetAutoInfo = (event) => {
+  const handleGetAutoInfo = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (selectedDays && selectedMileage && selectedFuelReserve) {
       navigate('/FuelTripData');

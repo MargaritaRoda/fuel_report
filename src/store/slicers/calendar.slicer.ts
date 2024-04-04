@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const INITIAL_STATE = [];
+const INITIAL_STATE: number[] = [];
 
-const removeElement = (nums, val) => {
+const removeElement = (nums: number[], val: number) => {
   for (let i = 0; i < nums.length; i++) {
     if (nums[i] === val) {
       for (let j = i + 1; j < nums.length; j++) {
@@ -12,7 +12,7 @@ const removeElement = (nums, val) => {
       i--;
     }
   }
-  return nums.sort((a,b) => a-b);
+  return nums.sort((a, b) => a - b);
 };
 
 const calendar = createSlice({
@@ -28,9 +28,7 @@ const calendar = createSlice({
         return removeElement([...state], newDay); // добавить действие по удалению даты при повторном нажатии
       }
 
-      return  [...state, newDay].sort((a,b) => a-b);
-
-
+      return [...state, newDay].sort((a, b) => a - b);
     },
   },
 });

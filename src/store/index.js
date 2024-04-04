@@ -10,6 +10,25 @@ import year from './slicers/year.slicer';
 import mileage from './slicers/mileage.slicer';
 import calendar from './slicers/calendar.slicer';
 import fuelReserve from './slicers/fuelReserve.slicer';
+import fuelTripData from './slicers/fuelTripData.slicer';
+
+// interface RootState {
+//   year: number;
+//   fuelTripData: FormDataItem[];
+//   license: string;
+//   month: {
+//     numberMonth: number;
+//     nameMonth: string;
+//   };
+//   user: {
+//     email: string;
+//     username: string;
+//   };
+//   calendar: number[];
+//   fuelReserve: number;
+//   auto: string;
+//   mileage: number;
+// }
 
 const rootReducer = combineReducers({
   [user.name]: user.reducer,
@@ -20,6 +39,7 @@ const rootReducer = combineReducers({
   [mileage.name]: mileage.reducer,
   [fuelReserve.name]: fuelReserve.reducer,
   [calendar.name]: calendar.reducer,
+  [fuelTripData.name]: fuelTripData.reducer,
 });
 
 const persistConfig = {

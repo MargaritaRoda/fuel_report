@@ -15,7 +15,10 @@ function daysInMonth(year: number, month: number): number {
 
 //console.log(Date.prototype.daysInMonth()); // количесвто дней в месяце, который выбрал пользователь = num
 
-export const getDaysOfMonthUserSelected = (selectedYear: number, selectedMonth: number): number[] => {
+export const getDaysOfMonthUserSelected = (
+  selectedYear: number,
+  selectedMonth: number,
+): number[] => {
   const num: number = daysInMonth(selectedYear, selectedMonth);
   const days: number[] = Array.from({ length: num }, (_, index) => index + 1);
   return days;
@@ -27,7 +30,7 @@ console.log(
 );
 
 const getDayOfFirstDate = (year: number, monthIndex: number): number => {
-  let date = new Date(year, monthIndex, 1);
+  const date = new Date(year, monthIndex, 1);
   return date.getDay();
 };
 
@@ -36,12 +39,16 @@ console.log(
   getDayOfFirstDate(selectedYear, selectedMonth),
 );
 
-export const getStylesCalendar = (arr: number[], selectedYear: number, selectedMonth: number) => {
-  let col = getDayOfFirstDate(selectedYear, selectedMonth) - 1;// приходит мз функции день недели 1 числа выбранного месяца 3-1
-  if (col< 0) {
-    col=6
+export const getStylesCalendar = (
+  arr: number[],
+  selectedYear: number,
+  selectedMonth: number,
+) => {
+  let col = getDayOfFirstDate(selectedYear, selectedMonth) - 1; // приходит мз функции день недели 1 числа выбранного месяца 3-1
+  if (col < 0) {
+    col = 6;
   }
-  let res = [];
+  const res = [];
   let row = 3;
   for (let i = 0; i < arr.length; i++) {
     col++;

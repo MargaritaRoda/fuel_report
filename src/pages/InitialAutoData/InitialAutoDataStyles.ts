@@ -1,5 +1,11 @@
-import { createUseStyles } from 'react-jss';
-
+import { createUseStyles, Styles } from 'react-jss';
+type StyleKey =
+  | 'formContainer'
+  | 'form'
+  | 'formTitle'
+  | 'MuiButtonBaseRootMuiButtonRootFormBtn'
+  | 'MuiButtonBaseRootMuiButtonRootReturnBtn'
+  | 'formCalendarInitial';
 export const useStyles = createUseStyles(() => {
   return {
     formContainer: {
@@ -58,5 +64,5 @@ export const useStyles = createUseStyles(() => {
       gridArea: '2/2',
       margin: '10%',
     },
-  };
+  } as Styles<StyleKey>;
 });
