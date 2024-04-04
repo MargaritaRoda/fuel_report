@@ -8,7 +8,7 @@ const PUBLIC_URL = '';
 const IS_DEV = process.env.NODE_ENV !== 'production';
 
 const config = {
-  entry: path.resolve(__dirname, '../src/index.ts'),
+  entry: path.resolve(__dirname, '../src/index.js'),
   output: {
     clean: true,
     path: path.resolve(__dirname, '../dist'),
