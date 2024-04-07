@@ -43,7 +43,7 @@ const func1 = (arrMain: FormDataItem[], restFuel: number) => {
   for (let i = 0; i < arr.length; i++) {
     const { fuel, distance }: FormDataItem = arr[i];
     if (distance === 0) {
-      dayWithoutDistance++;
+      dayWithoutDistance += 1;
     } else {
       allConstantDistance += distance;
     }
