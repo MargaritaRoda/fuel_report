@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { daysSelector } from '../../store/selectors/days.selector';
-import { selectMonth } from '../../store/selectors/month.selector';
+import { selectMonthForRender } from '../../store/selectors/month.selector';
 import { setFuelTripData } from '../../store/slicers/fuelTripData.slicer';
 import { FormDataObject } from '../../store/slicers/fuelTripTypes';
 
@@ -59,7 +59,7 @@ export const FuelTripData = () => {
   const ariaLabel = { 'aria-label': 'description' };
 
   const days: number[] = useSelector(daysSelector);
-  const selectedMonth = useSelector(selectMonth);
+  const selectedMonth = useSelector(selectMonthForRender);
   const dispatch = useDispatch();
 
   // const days = selectedDays.sort((a,b) => a-b);
@@ -79,7 +79,6 @@ export const FuelTripData = () => {
           fuel: '',
         };
       }
-
       switch (field) {
         case 'destination':
           data[day].destination = value.toString();

@@ -12,7 +12,7 @@ import {
   SelectChangeEvent,
   TextField,
 } from '@mui/material';
-import { Calendar } from '../../components/Calendar';
+import { Calendar } from '../../components/Calendar/Calendar';
 import { useDispatch, useSelector } from 'react-redux';
 import { addMonth } from '../../store/slicers/month.slicer';
 import { addYear } from '../../store/slicers/year.slicer';

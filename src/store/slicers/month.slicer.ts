@@ -8,7 +8,7 @@ const month = createSlice({
   reducers: {
     addMonth: (state, { payload: { nameMonth, numberMonth } }) => ({
       nameMonth,
-      numberMonth: (numberMonth + 1).toString(),
+      numberMonth: numberMonth,
     }),
   },
 });

@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { Action, configureStore, isPlain } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -11,24 +11,25 @@ import mileage from './slicers/mileage.slicer';
 import calendar from './slicers/calendar.slicer';
 import fuelReserve from './slicers/fuelReserve.slicer';
 import fuelTripData from './slicers/fuelTripData.slicer';
+import { FormDataItem } from './slicers/fuelTripTypes';
 
-// interface RootState {
-//   year: number;
-//   fuelTripData: FormDataItem[];
-//   license: string;
-//   month: {
-//     numberMonth: number;
-//     nameMonth: string;
-//   };
-//   user: {
-//     email: string;
-//     username: string;
-//   };
-//   calendar: number[];
-//   fuelReserve: number;
-//   auto: string;
-//   mileage: number;
-// }
+export interface RootState {
+  year: number;
+  fuelTripData: FormDataItem[];
+  license: string;
+  month: {
+    numberMonth: number;
+    nameMonth: string;
+  };
+  user: {
+    email: string;
+    username: string;
+  };
+  calendar: number[];
+  fuelReserve: number;
+  auto: string;
+  mileage: number;
+}
 
 const rootReducer = combineReducers({
   [user.name]: user.reducer,
@@ -56,6 +57,8 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) => {
     const middlewares = getDefaultMiddleware({
       serializableCheck: {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         ignoreActions: ['persist/PERSIST'],
       },
     });

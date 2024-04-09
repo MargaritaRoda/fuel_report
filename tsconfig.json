@@ -13,7 +13,8 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "allowSyntheticDefaultImports": true,
-    "rootDir": "."
+    "rootDir": ".",
+    //"allowImportingTsExtensions": true,
   },
   "exclude": [
     "node_modules",

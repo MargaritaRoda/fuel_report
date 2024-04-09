@@ -1,13 +1,17 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const webpack = require('webpack');
-const CopyPlugin = require('copy-webpack-plugin');
-const path = require('path');
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import webpack from 'webpack';
+import CopyPlugin from 'copy-webpack-plugin';
+import path from 'path';
+import {fileURLToPath} from "node:url";
+import { dirname } from 'path';
 
-const PUBLIC_URL = '';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+export const PUBLIC_URL = '';
 const IS_DEV = process.env.NODE_ENV !== 'production';
 
-const config = {
+export const config = {
   entry: path.resolve(__dirname, '../src/index.js'),
   output: {
     clean: true,
@@ -100,7 +104,7 @@ const config = {
   ],
 };
 
-module.exports = {
-  config,
-  PUBLIC_URL,
-};
+// module.exports = {
+//   config,
+//   PUBLIC_URL,
+// };

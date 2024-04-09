@@ -28,8 +28,8 @@
     "redux-persist": "^6.0.0"
   },
   "scripts": {
-    "start": "webpack serve --config config/webpack.dev.js",
-    "build": "NODE_ENV=production webpack --config config/webpack.prod.js",
+    "start": "webpack serve --config config/webpack.dev.mjs",
+    "build": "NODE_ENV=production webpack --config config/webpack.prod.mjs",
     "prepare": "husky install",
     "lint": "prettier --write . && eslint src/**/*.js --fix",
     "test": "jest"

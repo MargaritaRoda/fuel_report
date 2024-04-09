@@ -186,7 +186,7 @@ export const addDistanceFuelMileageData = (
 console.log(addDistanceFuelMileageData(arrOfObj, 15, 0));
 
 // передаем результат предыдущей фукции: addDistanceFuelMileageData
-const getFullDistanceFuel = (arr) => {
+export const getFullDistanceFuel = (arr) => {
   const fullDistance = arr.reduce((acc, day) => acc + day.distance, 0);
   const fullGetFuel = arr.reduce((acc, day) => acc + day.fuel, 0);
   const fullFactFuel = arr.reduce((acc, day) => acc + day.dayFuel, 0);

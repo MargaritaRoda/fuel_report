@@ -1,12 +1,15 @@
-import React, {MouseEvent} from 'react';
-import {useStyles} from './CalendarStyles';
+import React, { MouseEvent } from 'react';
+import { useStyles } from './CalendarStyles';
 import classNames from 'classnames';
-import {useDispatch, useSelector} from 'react-redux';
-import {selectMonth} from '../../store/selectors/month.selector';
-import {toggleCalendarDay} from '../../store/slicers/calendar.slicer';
-import {daysSelector} from '../../store/selectors/days.selector';
-import {getDaysOfMonthUserSelected, getStylesCalendar} from './constants';
-import {selectYear} from '../../store/selectors/year.selector';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  selectMonthForCalculation,
+  selectMonthForRender,
+} from '../../store/selectors/month.selector';
+import { toggleCalendarDay } from '../../store/slicers/calendar.slicer';
+import { daysSelector } from '../../store/selectors/days.selector';
+import { getDaysOfMonthUserSelected, getStylesCalendar } from './constants';
+import { selectYear } from '../../store/selectors/year.selector';
 
 // const year = [
 //   {
@@ -74,7 +77,7 @@ import {selectYear} from '../../store/selectors/year.selector';
 const week: string[] = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 
 interface CalendarProps {
-    className?: string,
+  className?: string;
 }
 
 export const Calendar: React.FC<CalendarProps> = ({ className }) => {
@@ -82,25 +85,21 @@ export const Calendar: React.FC<CalendarProps> = ({ className }) => {
 
   const dispatch = useDispatch();
 
-  const selectedDays = useSelector(daysSelector)
+  const selectedDays = useSelector(daysSelector);
 
+  const selectedMonth = useSelector(selectMonthForRender);
+  const selectedMonthForCalc = useSelector(selectMonthForCalculation);
 
-  const selectedMonth = useSelector(selectMonth);
   const selectedYear = useSelector(selectYear);
   const days: number[] = getDaysOfMonthUserSelected(
     selectedYear,
-    selectedMonth.numberMonth,
+    selectedMonthForCalc.numberMonth,
   );
-
-
 
   const handleGetDay = (event: MouseEvent<HTMLDivElement>) => {
     const newDay: number = parseInt(event.currentTarget.innerText); // type number
-    dispatch(toggleCalendarDay( newDay ));
+    dispatch(toggleCalendarDay(newDay));
   };
-
-
-
 
   return (
     <div className={classNames(classes.calendarScheme, className)}>
@@ -113,17 +112,20 @@ export const Calendar: React.FC<CalendarProps> = ({ className }) => {
       <div className={classes.sa}>{week[5]}</div>
       <div className={classes.su}>{week[6]}</div>
 
-    
-
       {days.map((day, index) => {
         return (
           <div
-            className={classNames((selectedDays.includes(day)) && classes.dateActive, classes.dayHover)}
+            className={classNames(
+              selectedDays.includes(day) && classes.dateActive,
+              classes.dayHover,
+            )}
             key={index}
             style={
-              getStylesCalendar(days, selectedYear, selectedMonth.numberMonth)[
-                index
-              ]
+              getStylesCalendar(
+                days,
+                selectedYear,
+                selectedMonthForCalc.numberMonth,
+              )[index]
             }
             onClick={handleGetDay}
           >
@@ -142,4 +144,3 @@ export const Calendar: React.FC<CalendarProps> = ({ className }) => {
     </div>
   );
 };
-

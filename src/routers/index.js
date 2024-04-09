@@ -4,12 +4,13 @@ import {
   createRoutesFromElements,
   Route,
 } from 'react-router-dom';
-import { SystemLayout } from '../components/SystemLayout/SystemLayout';
-import { ErrorBoundary } from '../components/ErrorBoundary';
-import { UserEnter } from '../pages/UserEnter';
-import { AutoInfo } from '../pages/AutoInfo';
-import { InitialAutoData } from '../pages/InitialAutoData';
-import { FuelTripData } from '../pages/FuelTripData';
+import { SystemLayout } from '../components/SystemLayout/SystemLayout.jsx';
+import { ErrorBoundary } from '../components/ErrorBoundary/ErrorBoundary.jsx';
+import { UserEnter } from '../pages/UserEnter/UserEnter.tsx';
+import { AutoInfo } from '../pages/AutoInfo/AutoInfo.tsx';
+import { InitialAutoData } from '../pages/InitialAutoData/InitialAutoData.tsx';
+import { FuelTripData } from '../pages/FuelTripData/FuelTripData.tsx';
+import { FuelReport } from '../pages/FuelReport/FuelReport.tsx';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,6 +20,7 @@ export const router = createBrowserRouter(
         <Route path="/AutoInfo" element={<AutoInfo />} />
         <Route path="/InitialAutoData" element={<InitialAutoData />} />
         <Route path="/FuelTripData" element={<FuelTripData />} />
+        <Route path="/FuelReport" element={<FuelReport />} />
       </Route>
     </Route>,
   ),
