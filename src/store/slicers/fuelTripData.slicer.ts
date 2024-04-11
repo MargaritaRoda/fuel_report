@@ -27,7 +27,7 @@ const fuelTripData = createSlice({
   initialState: INITIAL_STATE,
   reducers: {
     setFuelTripData: (state, action: PayloadAction<FormDataObject>) => {
-      return autoCompleteObjKey(action.payload, 'Минск');
+      return [...autoCompleteObjKey(action.payload, 'Минск')];
     },
   },
 });

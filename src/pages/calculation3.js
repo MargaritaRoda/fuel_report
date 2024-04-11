@@ -71,10 +71,11 @@ class TempRestFuel {
   }
 }
 
-const filledPeriodsByDistance = (arrMain, restFuel, tempRestFuel) => {
+const filledPeriodsByDistance = (arrMain, restFuel) => {
   let newTransformArray = [...arrMain];
   const arr = [...arrMain];
-  //const tempRestFuel = new TempRestFuel();
+  let finalArray = [];
+
   let nextRestFuel;
   let allFuel = 0;
   let allConstantDistance = 0;
@@ -86,11 +87,15 @@ const filledPeriodsByDistance = (arrMain, restFuel, tempRestFuel) => {
     } else {
       allConstantDistance += distance;
     }
-    allFuel += fuel;
+    if (fuel) {
+      allFuel += fuel - 0.5;
+    } else {
+      allFuel += fuel;
+    }
   }
-  // console.log('allFuel', allFuel);
-  // console.log('allConstantDistance', allConstantDistance);
-  // console.log('dayWithoutDistance', dayWithoutDistance);
+  console.log('allFuel', allFuel);
+  console.log('allConstantDistance', allConstantDistance);
+  console.log('dayWithoutDistance', dayWithoutDistance);
 
   const allDistanceWithAllFuel = ((restFuel + allFuel) * 100) / 7.2;
   if (allDistanceWithAllFuel < allConstantDistance) {
@@ -99,38 +104,52 @@ const filledPeriodsByDistance = (arrMain, restFuel, tempRestFuel) => {
     throw new Error('топлива не хватает для введенного километража');
   }
   console.log('allFuel+restFuel', allFuel + restFuel);
-  // console.log('allDistanceWithAllFuel', allDistanceWithAllFuel);
+  console.log('allDistanceWithAllFuel', allDistanceWithAllFuel);
 
   const distanceForOtherDay = allDistanceWithAllFuel - allConstantDistance;
-  // console.log('distanceForOtherDay', distanceForOtherDay);
+  console.log('distanceForOtherDay', distanceForOtherDay);
 
   const distanceForEachDay = distanceForOtherDay / dayWithoutDistance;
-  // console.log('distanceForEachDay', distanceForEachDay);
-  // console.log('arrMain', arrMain);
+  console.log('distanceForEachDay', distanceForEachDay);
+  console.log('arrMain', arrMain);
 
   if (distanceForEachDay <= 60) {
     nextRestFuel = 0;
     for (let i = 0; i < newTransformArray.length; i++) {
+      let finalObj = {};
       if (newTransformArray[i].distance === 0) {
-        newTransformArray[i].distance = distanceForEachDay;
+        finalObj.fuel = newTransformArray[i].fuel;
+        finalObj.destination = newTransformArray[i].destination;
+        finalObj.distance = distanceForEachDay;
+      } else {
+        finalObj.fuel = newTransformArray[i].fuel;
+        finalObj.destination = newTransformArray[i].destination;
+        finalObj.distance = newTransformArray[i].distance;
       }
+
+      finalArray.push(finalObj);
     }
   } else {
     const fuelForDistance =
       ((allConstantDistance + 60 * dayWithoutDistance) * 7.2) / 100;
-
     nextRestFuel = allFuel + restFuel - fuelForDistance;
-    console.log('1', nextRestFuel);
     for (let i = 0; i < newTransformArray.length; i++) {
+      let finalObj = {};
       if (newTransformArray[i].distance === 0) {
-        newTransformArray[i].distance = 60;
+        finalObj.fuel = newTransformArray[i].fuel;
+        finalObj.destination = newTransformArray[i].destination;
+        finalObj.distance = 60;
+      } else {
+        finalObj.fuel = newTransformArray[i].fuel;
+        finalObj.destination = newTransformArray[i].destination;
+        finalObj.distance = newTransformArray[i].distance;
       }
-    }
 
-    //tempRestFuel.set(nextRestFuel);
+      finalArray.push(finalObj);
+    }
   }
   return {
-    filledArray: arr,
+    filledArray: finalArray,
     nextRestFuel,
   };
 };
@@ -142,14 +161,14 @@ const setDistance = (arr, restFuel) => {
   let results = [];
 
   for (let i = 0; i < arr.length; i++) {
-    console.log('nextRestFuel', tempRestFuel.get());
+    //console.log('nextRestFuel', tempRestFuel.get());
     const initialRestFuel = tempRestFuel.get();
-    console.log('restFuel', restFuel);
+    //console.log('restFuel', restFuel);
     const result = filledPeriodsByDistance(
       arr[i],
-      i === 0 ? restFuel : initialRestFuel,
+      i === 0 ? restFuel - 0.5 : initialRestFuel,
     );
-    console.log('result', result);
+    // console.log('result', result);
     results.push(result.filledArray);
     tempRestFuel.set(result.nextRestFuel);
   }
@@ -157,7 +176,7 @@ const setDistance = (arr, restFuel) => {
   return [].concat(...results);
 };
 
-//console.log(setDistance(transformArr, 18));
+console.log(setDistance(transformArr, 18));
 
 // const periods = getPeriods(arrOfObj);
 // console.log('periods', periods);
@@ -183,7 +202,7 @@ export const addDistanceFuelMileageData = (
   return setStartEndDayMileage(addedDistanceAndDayFuelStartEnd, initialMileage);
 };
 
-console.log(addDistanceFuelMileageData(arrOfObj, 15, 0));
+//console.log(addDistanceFuelMileageData(arrOfObj, 15, 0));
 
 // передаем результат предыдущей фукции: addDistanceFuelMileageData
 export const getFullDistanceFuel = (arr) => {

@@ -14,24 +14,27 @@ type StyleKey =
   | 'tableRows'
   | 'tableRows1'
   | 'tableRows2'
-  | 'tableRows3';
+  | 'tableRows3'
+  | 'tableBodyRows'
+  | 'transparentItem';
 export const useStyles = createUseStyles(() => {
   return {
     root: {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      //gridTemplateColumns: '1fr',
-      //gridTemplateRows: 'auto',
+      marginLeft: 50,
+      marginRight: 50,
       minHeight: '100%',
       backgroundColor: '#ffffff',
     },
+    //* header start *//
     rootHeader: {
       display: 'grid',
       gridTemplateColumns: '350px auto 350px 350px',
       gridTemplateRows: 'auto',
-      gap: 20,
-      padding: 24,
+      gap: 15,
+      padding: 12,
     },
     rootTitle: {
       justifySelf: 'center',
@@ -47,7 +50,6 @@ export const useStyles = createUseStyles(() => {
       gridRow: '2/2',
       alignSelf: 'end',
       justifySelf: 'center',
-      //textDecoration: 'overline',
       fontStyle: 'italic',
     },
     headerTitle: {
@@ -71,14 +73,17 @@ export const useStyles = createUseStyles(() => {
       gridRow: '2/ 2',
       textDecoration: 'underline',
     },
-    //*table*//
+    //* header end *//
+
+    //* table start *//
+    // * table header start *//
     table: {
       tableLayout: 'fixed',
       width: '100%',
       borderCollapse: 'collapse',
       border: '2px solid #000000',
+      fontSize: 12,
     },
-
     row: {
       wordWrap: 'break-word',
       writingMode: 'vertical-rl',
@@ -93,18 +98,32 @@ export const useStyles = createUseStyles(() => {
     },
     tableRows1: {
       '& th': {
-        height: 50,
+        height: 40,
       },
     },
     tableRows2: {
       '& th': {
-        height: 50,
+        height: 20,
       },
     },
     tableRows3: {
       '& th': {
-        height: 150,
+        height: 100,
       },
     },
+    // * table header  end*//
+
+    // * table body start *//
+    tableBodyRows: {
+      '& td': {
+        textAlign: 'center',
+        border: '1px solid #000000',
+      },
+    },
+    transparentItem: {
+      color: 'transparent',
+    },
+    // * table body end *//
+    //* table end *//
   } as Styles<StyleKey>;
 });

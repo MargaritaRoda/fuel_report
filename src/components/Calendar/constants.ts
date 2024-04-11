@@ -5,7 +5,7 @@ const days = [
 const selectedMonth = 10; // значение, полученное от ползователя
 const selectedYear = 2023; // значение, полученное от ползователя
 
-function daysInMonth(year: number, month: number): number {
+export function daysInMonth(year: number, month: number): number {
   return new Date(year, month + 1, 0).getDate();
 }
 
@@ -24,20 +24,20 @@ export const getDaysOfMonthUserSelected = (
   return days;
 };
 
-console.log(
-  'массив для рисования календаря',
-  getDaysOfMonthUserSelected(selectedYear, selectedMonth),
-);
+// console.log(
+//   'массив для рисования календаря',
+//   getDaysOfMonthUserSelected(selectedYear, selectedMonth),
+// );
 
 const getDayOfFirstDate = (year: number, monthIndex: number): number => {
   const date = new Date(year, monthIndex, 1);
   return date.getDay();
 };
 
-console.log(
-  'день недели 1го числа месяца',
-  getDayOfFirstDate(selectedYear, selectedMonth),
-);
+// console.log(
+//   'день недели 1го числа месяца',
+//   getDayOfFirstDate(selectedYear, selectedMonth),
+// );
 
 export const getStylesCalendar = (
   arr: number[],
@@ -72,4 +72,4 @@ export const getStylesCalendar = (
   }
   return res;
 };
-console.log(getStylesCalendar(days, selectedYear, selectedMonth));
+//console.log(getStylesCalendar(days, selectedYear, selectedMonth));

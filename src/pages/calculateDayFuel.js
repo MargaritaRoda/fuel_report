@@ -40,11 +40,16 @@ export const setStartEndDayFuel = (arr, restFuel) => {
   let endDayFuel;
   for (let i = 0; i < copyArr.length; i++) {
     if (i === 0) {
-      tempRestFuel.set(restFuel);
+      tempRestFuel.set(restFuel + 0.5);
     }
     startDayFuel = tempRestFuel.get();
     copyArr[i]['startDayFuel'] = startDayFuel;
-    endDayFuel = startDayFuel + copyArr[i].fuel - copyArr[i].dayFuel;
+    if (copyArr[i].fuel) {
+      endDayFuel = startDayFuel + copyArr[i].fuel - copyArr[i].dayFuel + 0.5;
+    } else {
+      endDayFuel = startDayFuel + copyArr[i].fuel - copyArr[i].dayFuel;
+    }
+
     copyArr[i]['endDayFuel'] = endDayFuel;
     tempRestFuel.set(endDayFuel);
   }

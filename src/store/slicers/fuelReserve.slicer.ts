@@ -6,7 +6,9 @@ const fuelReserve = createSlice({
   name: 'fuelReserve',
   initialState: INITIAL_STATE,
   reducers: {
-    setFuelReserve: (state, { payload: fuelReserve }) => fuelReserve,
+    setFuelReserve: (state, { payload: fuelReserve }) => {
+      return fuelReserve ? fuelReserve : 1;
+    },
   },
 });
 const { actions } = fuelReserve;

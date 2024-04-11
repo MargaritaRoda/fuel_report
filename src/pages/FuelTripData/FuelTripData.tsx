@@ -16,43 +16,7 @@ import { daysSelector } from '../../store/selectors/days.selector';
 import { selectMonthForRender } from '../../store/selectors/month.selector';
 import { setFuelTripData } from '../../store/slicers/fuelTripData.slicer';
 import { FormDataObject } from '../../store/slicers/fuelTripTypes';
-
-// const days = [
-//   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
-//   23, 24, 25, 26, 27, 28, 29, 30,
-// ];
-
-// const autoCompleteObjKey = (obj, fuel, distance, baseCity) => {
-//     for (let key in obj) {
-//         if (key.includes(fuel)) {
-//             if (obj[key] === '') {
-//                 obj[key] = '0'
-//             }
-//         }
-//         if (key.includes(distance)) {
-//             if(obj[key] === '') {
-//                 obj[key] = baseCity
-//             }
-//         }
-//     }
-//     return obj
-// }
-//
-// const divideObj = (obj, arr) => {
-//     let res = [];
-//     for (let i = 0; i<arr.length; i++) {
-//         const currentObj = {}
-//         let currentKey = arr[i]
-//         for (let key in obj) {
-//             const changedKey = parseInt(key)
-//             if (changedKey === currentKey) {
-//                 currentObj[key]= obj[key]
-//             }
-//         }
-//         res.push(currentObj)
-//     }
-//     return res;
-// }
+import { useNavigate } from 'react-router-dom';
 
 export const FuelTripData = () => {
   const classes = useStyles();
@@ -61,7 +25,7 @@ export const FuelTripData = () => {
   const days: number[] = useSelector(daysSelector);
   const selectedMonth = useSelector(selectMonthForRender);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   // const days = selectedDays.sort((a,b) => a-b);
 
   const handleGetFuelTripData = (event: FormEvent<HTMLFormElement>) => {
@@ -90,17 +54,11 @@ export const FuelTripData = () => {
           data[day].fuel = value.toString();
           break;
       }
-      // if (field === 'destination') {
-      //   data[day].destination = value.toString();
-      // } else if (field === 'distance') {
-      //   data[day].distance = value.toString();
-      // } else if (field === 'fuel') {
-      //   data[day].fuel = value.toString();
-      // }
     });
-    console.log(data);
+    // console.log(data);
 
     dispatch(setFuelTripData(data));
+    navigate('/FuelReport');
   };
 
   return (
