@@ -93,9 +93,9 @@ const filledPeriodsByDistance = (arrMain, restFuel) => {
       allFuel += fuel;
     }
   }
-  console.log('allFuel', allFuel);
-  console.log('allConstantDistance', allConstantDistance);
-  console.log('dayWithoutDistance', dayWithoutDistance);
+  // console.log('allFuel', allFuel);
+  // console.log('allConstantDistance', allConstantDistance);
+  // console.log('dayWithoutDistance', dayWithoutDistance);
 
   const allDistanceWithAllFuel = ((restFuel + allFuel) * 100) / 7.2;
   if (allDistanceWithAllFuel < allConstantDistance) {
@@ -103,15 +103,20 @@ const filledPeriodsByDistance = (arrMain, restFuel) => {
     // return;
     throw new Error('топлива не хватает для введенного километража');
   }
-  console.log('allFuel+restFuel', allFuel + restFuel);
-  console.log('allDistanceWithAllFuel', allDistanceWithAllFuel);
+  //console.log('allFuel+restFuel', allFuel + restFuel);
+  if (allFuel + restFuel > 55) {
+    throw new Error(
+      'Кличество тплива превышает обьем бака. Уменьшите остаток топлива или увеличте пробег во время командировки',
+    );
+  }
+  //console.log('allDistanceWithAllFuel', allDistanceWithAllFuel);
 
   const distanceForOtherDay = allDistanceWithAllFuel - allConstantDistance;
-  console.log('distanceForOtherDay', distanceForOtherDay);
+  // console.log('distanceForOtherDay', distanceForOtherDay);
 
   const distanceForEachDay = distanceForOtherDay / dayWithoutDistance;
-  console.log('distanceForEachDay', distanceForEachDay);
-  console.log('arrMain', arrMain);
+  // console.log('distanceForEachDay', distanceForEachDay);
+  // console.log('arrMain', arrMain);
 
   if (distanceForEachDay <= 60) {
     nextRestFuel = 0;
