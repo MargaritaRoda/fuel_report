@@ -41,12 +41,16 @@ export const FuelTripData = () => {
       const [day, field] = key.split(' ');
       if (!data[day]) {
         data[day] = {
+          startDestination: '',
           destination: '',
           distance: '',
           fuel: '',
         };
       }
       switch (field) {
+        case 'startDestination':
+          data[day].startDestination = value.toString();
+          break;
         case 'destination':
           data[day].destination = value.toString();
           break;
@@ -58,7 +62,7 @@ export const FuelTripData = () => {
           break;
       }
     });
-    // console.log(data);
+    console.log(data);
 
     dispatch(setFuelTripData(data));
     navigate('/FuelReport');
@@ -104,12 +108,13 @@ export const FuelTripData = () => {
                 <TableCell align="center" sx={{ width: '300px' }}>
                   Количество заправленного топлива (л)
                 </TableCell>
+                <TableCell align="center" sx={{ width: '300px' }}>
+                  Город отправления
+                </TableCell>
                 <TableCell align="center" sx={{ width: '290px' }}>
                   Командировочный город
                 </TableCell>
-                <TableCell align="center" sx={{ width: '290px' }}>
-                  Пробег (км)
-                </TableCell>
+                <TableCell align="center">Пробег (км)</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -126,10 +131,18 @@ export const FuelTripData = () => {
                   </TableCell>
                   <TableCell align="center">
                     <Input
+                      name={`${day} startDestination`}
+                      placeholder="Борисов"
+                      inputProps={ariaLabel}
+                      sx={{ width: '250px' }}
+                    />
+                  </TableCell>
+                  <TableCell align="center">
+                    <Input
                       name={`${day} destination`}
                       placeholder="Борисов"
                       inputProps={ariaLabel}
-                      sx={{ width: '290px' }}
+                      sx={{ width: '250px' }}
                     />
                   </TableCell>
                   <TableCell align="center">
@@ -137,7 +150,7 @@ export const FuelTripData = () => {
                       name={`${day} distance`}
                       placeholder="130"
                       inputProps={ariaLabel}
-                      sx={{ width: '290px' }}
+                      sx={{ width: '200px' }}
                     />
                   </TableCell>
                 </TableRow>

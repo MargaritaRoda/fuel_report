@@ -1,16 +1,16 @@
 import { FormDataItem } from '../store/slicers/fuelTripTypes';
 
 const arrOfObj: FormDataItem[] = [
-  { fuel: 0, destination: 'Minsk', distance: 0 },
-  { fuel: 0, destination: 'Borisov', distance: 200 }, //200
-  { fuel: 12, destination: 'Zodino', distance: 100 }, //100
-  { fuel: 0, destination: 'Minsk', distance: 0 },
-  { fuel: 0, destination: 'Minsk', distance: 0 },
-  { fuel: 25, destination: 'Minsk', distance: 0 },
-  { fuel: 0, destination: 'gomel', distance: 200 }, //200
-  { fuel: 0, destination: 'Minsk', distance: 0 }, //25
-  { fuel: 10, destination: 'Minsk', distance: 0 },
-  { fuel: 0, destination: 'Minsk', distance: 0 },
+  { fuel: 0, startDestination: 'Minsk', destination: 'Minsk', distance: 0 },
+  { fuel: 0, startDestination: 'Minsk', destination: 'Borisov', distance: 200 }, //200
+  { fuel: 12, startDestination: 'Minsk', destination: 'Zodino', distance: 100 }, //100
+  { fuel: 0, startDestination: 'Minsk', destination: 'Minsk', distance: 0 },
+  { fuel: 0, startDestination: 'Minsk', destination: 'Minsk', distance: 0 },
+  { fuel: 25, startDestination: 'Minsk', destination: 'Minsk', distance: 0 },
+  { fuel: 0, startDestination: 'Minsk', destination: 'gomel', distance: 200 }, //200
+  { fuel: 0, startDestination: 'Minsk', destination: 'Minsk', distance: 0 }, //25
+  { fuel: 10, startDestination: 'Minsk', destination: 'Minsk', distance: 0 },
+  { fuel: 0, startDestination: 'Minsk', destination: 'Minsk', distance: 0 },
 ];
 
 const getPeriods = (arr: FormDataItem[]) => {

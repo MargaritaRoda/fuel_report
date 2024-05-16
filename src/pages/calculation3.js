@@ -140,10 +140,12 @@ const filledPeriodsByDistance = (arrMain, restFuel) => {
       let finalObj = {};
       if (newTransformArray[i].distance === 0) {
         finalObj.fuel = newTransformArray[i].fuel;
+        finalObj.startDestination = newTransformArray[i].startDestination;
         finalObj.destination = newTransformArray[i].destination;
         finalObj.distance = distanceForEachDay;
       } else {
         finalObj.fuel = newTransformArray[i].fuel;
+        finalObj.startDestination = newTransformArray[i].startDestination;
         finalObj.destination = newTransformArray[i].destination;
         finalObj.distance = newTransformArray[i].distance;
       }
@@ -158,10 +160,12 @@ const filledPeriodsByDistance = (arrMain, restFuel) => {
       let finalObj = {};
       if (newTransformArray[i].distance === 0) {
         finalObj.fuel = newTransformArray[i].fuel;
+        finalObj.startDestination = newTransformArray[i].startDestination;
         finalObj.destination = newTransformArray[i].destination;
         finalObj.distance = 60;
       } else {
         finalObj.fuel = newTransformArray[i].fuel;
+        finalObj.startDestination = newTransformArray[i].startDestination;
         finalObj.destination = newTransformArray[i].destination;
         finalObj.distance = newTransformArray[i].distance;
       }

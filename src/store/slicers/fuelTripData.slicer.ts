@@ -6,12 +6,23 @@ const INITIAL_STATE: FormDataItem[] = [];
 const autoCompleteObjKey = (
   obj: FormDataObject,
   baseCity: string,
-): { destination: string; distance: number; fuel: number }[] => {
-  const res: { destination: string; distance: number; fuel: number }[] = [];
+): {
+  startDestination: string;
+  destination: string;
+  distance: number;
+  fuel: number;
+}[] => {
+  const res: {
+    startDestination: string;
+    destination: string;
+    distance: number;
+    fuel: number;
+  }[] = [];
 
   for (const key in obj) {
     const currentItem = obj[key];
     const newObject = {
+      startDestination: currentItem.startDestination || baseCity,
       destination: currentItem.destination || baseCity,
       distance: parseFloat(currentItem.distance) || 0,
       fuel: parseFloat(currentItem.fuel) || 0,

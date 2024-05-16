@@ -24,6 +24,7 @@ import { useNavigate } from 'react-router-dom';
 
 interface DataForRender {
   fuel: number;
+  startDestination: string;
   destination: string;
   distance: number;
   dayFuel: number;
@@ -268,7 +269,7 @@ export const FuelReport = () => {
                   <tr key={index}>
                     <td>{datesForRender[index]}</td>
                     <td>1</td>
-                    <td>{item.destination}</td>
+                    <td>{item.startDestination}</td>
                     <td>{item.destination}</td>
                     <td>{Math.round(item.distance)}</td>
                   </tr>
