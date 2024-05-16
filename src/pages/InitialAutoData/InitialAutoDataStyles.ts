@@ -17,7 +17,7 @@ export const useStyles = createUseStyles(() => {
     form: {
       justifySelf: 'center',
       gridArea: '2/1',
-      height: 'fit-content',
+      height: 600,
       flex: '1',
       padding: '54px',
       display: 'grid',

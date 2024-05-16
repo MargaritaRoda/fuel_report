@@ -27,6 +27,9 @@ export const FuelTripData = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // const days = selectedDays.sort((a,b) => a-b);
+  const handleReturnPreviousStep = () => {
+    navigate('/InitialAutoData');
+  };
 
   const handleGetFuelTripData = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -65,6 +68,7 @@ export const FuelTripData = () => {
     <Container className={classes.FuelTripContainer}>
       <Button
         variant="contained"
+        onClick={handleReturnPreviousStep}
         sx={{
           maxWidth: 'fit-content',
           placeSelf: 'left',

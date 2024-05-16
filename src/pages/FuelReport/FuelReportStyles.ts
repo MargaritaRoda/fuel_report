@@ -16,9 +16,26 @@ type StyleKey =
   | 'tableRows2'
   | 'tableRows3'
   | 'tableBodyRows'
-  | 'transparentItem';
+  | 'transparentItem'
+  | 'buttonWrapper'
+  | 'MuiButtonBaseRootMuiButtonRootReturnBtn';
 export const useStyles = createUseStyles(() => {
   return {
+    buttonWrapper: {
+      position: 'absolute',
+      '@media print': {
+        display: 'none',
+      },
+    },
+    MuiButtonBaseRootMuiButtonRootReturnBtn: {
+      fontSize: '1em',
+      width: 'fit-content',
+      justifySelf: 'flex-start',
+      height: '3em',
+      borderRadius: '1.05em',
+      marginLeft: '1em',
+      marginTop: '1em',
+    },
     root: {
       display: 'flex',
       flexDirection: 'column',

@@ -36,9 +36,12 @@ export const InitialAutoData = () => {
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
 
+  const handleReturnPreviousStep = () => {
+    navigate('/AutoInfo');
+  };
   const handleChangeMonth = (
     event: SelectChangeEvent<string>,
-    child: ReactNode,
+    //child: ReactNode,
   ) => {
     setMonth(event.target.value);
     const objMonth = JSON.parse(event.target.value);
@@ -52,7 +55,7 @@ export const InitialAutoData = () => {
   };
   const handleChangeYear = (
     event: SelectChangeEvent<string>,
-    child: ReactNode,
+    // child: ReactNode,
   ) => {
     setYear(event.target.value);
     dispatch(addYear(parseInt(event.target.value)));
@@ -88,6 +91,7 @@ export const InitialAutoData = () => {
       <Button
         variant="contained"
         className={classes.MuiButtonBaseRootMuiButtonRootReturnBtn}
+        onClick={handleReturnPreviousStep}
       >
         Вернуться на предыдущий этап
       </Button>

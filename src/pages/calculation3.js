@@ -79,7 +79,7 @@ const filledPeriodsByDistance = (arrMain, restFuel) => {
   let nextRestFuel;
   let allFuel = 0;
   let allConstantDistance = 0;
-  let dayWithoutDistance = 0;
+  let dayWithoutDistance = 0; //обработай ситуацию, котгда остался 0. на 0 делить нельзя
   for (let i = 0; i < arr.length; i++) {
     const { fuel, distance } = arr[i];
     if (distance === 0) {
@@ -113,10 +113,26 @@ const filledPeriodsByDistance = (arrMain, restFuel) => {
 
   const distanceForOtherDay = allDistanceWithAllFuel - allConstantDistance;
   // console.log('distanceForOtherDay', distanceForOtherDay);
-
-  const distanceForEachDay = distanceForOtherDay / dayWithoutDistance;
-  // console.log('distanceForEachDay', distanceForEachDay);
-  // console.log('arrMain', arrMain);
+  let distanceForEachDay;
+  if (dayWithoutDistance) {
+    distanceForEachDay = distanceForOtherDay / dayWithoutDistance;
+    // console.log('distanceForEachDay', distanceForEachDay);
+    // console.log('arrMain', arrMain);
+  } else {
+    const fuelForDistance = (allConstantDistance * 7.2) / 100;
+    nextRestFuel = allFuel + restFuel - fuelForDistance;
+    for (let i = 0; i < newTransformArray.length; i++) {
+      let finalObj = {};
+      finalObj.fuel = newTransformArray[i].fuel;
+      finalObj.destination = newTransformArray[i].destination;
+      finalObj.distance = newTransformArray[i].distance;
+      finalArray.push(finalObj);
+    }
+    return {
+      filledArray: finalArray,
+      nextRestFuel,
+    };
+  }
 
   if (distanceForEachDay <= 60) {
     nextRestFuel = 0;
