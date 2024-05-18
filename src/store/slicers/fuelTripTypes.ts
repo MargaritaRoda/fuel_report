@@ -13,3 +13,15 @@ export interface FormDataItem {
   distance: number;
   fuel: number;
 }
+export interface FormDataItemDayFuel extends FormDataItem {
+  dayFuel: number;
+}
+export interface FormDataItemDayFuelStartEnd extends FormDataItemDayFuel {
+  startDayFuel: number;
+  endDayFuel: number;
+}
+export interface FormDataItemDayFuelStartEndMileage
+  extends FormDataItemDayFuelStartEnd {
+  startDayMileage: number;
+  endDayMileage: number;
+}

@@ -2,7 +2,11 @@ import {
   addDayFuel,
   setStartEndDayFuel,
   setStartEndDayMileage,
-} from './calculateDayFuel.js';
+} from './calculateDayFuel';
+import {
+  FormDataItem,
+  FormDataItemDayFuel,
+} from '../store/slicers/fuelTripTypes';
 
 const transformArr = [
   [
@@ -38,7 +42,13 @@ const arrOfObj = [
   { fuel: 0, destination: 'Minsk', distance: 0 },
 ];
 
-const getPeriods = (arr) => {
+interface filledPeriodsByDistanceResult {
+  filledArray: FormDataItem[];
+  nextRestFuel: number;
+}
+export class LittleFuelException extends Error {}
+
+const getPeriods = (arr: FormDataItem[]) => {
   const tempRes = [];
   let currArr = [];
   for (let i = 0; i < arr.length; i++) {
@@ -53,28 +63,29 @@ const getPeriods = (arr) => {
       tempRes.push(currArr);
     }
   }
-  return tempRes;
+  return tempRes; // return FormDataItem[][]
 };
 
 // allFuel - все полученное топливо за период + остаток топлива restFuel
 // и посчитаем сколько км можно проехать на этом топливе allDistance
 
 class TempRestFuel {
+  public nextRestFuel: number;
   constructor(defaultValue = 0) {
     this.nextRestFuel = defaultValue;
   }
   get() {
     return this.nextRestFuel;
   }
-  set(temp) {
+  set(temp: number) {
     this.nextRestFuel = temp;
   }
 }
 
-const filledPeriodsByDistance = (arrMain, restFuel) => {
-  let newTransformArray = [...arrMain];
+const filledPeriodsByDistance = (arrMain: FormDataItem[], restFuel: number) => {
+  const newTransformArray: FormDataItem[] = [...arrMain];
   const arr = [...arrMain];
-  let finalArray = [];
+  const finalArray = [];
 
   let nextRestFuel;
   let allFuel = 0;
@@ -99,14 +110,14 @@ const filledPeriodsByDistance = (arrMain, restFuel) => {
 
   const allDistanceWithAllFuel = ((restFuel + allFuel) * 100) / 7.2;
   if (allDistanceWithAllFuel < allConstantDistance) {
-    // console.log('топлива не хватает для введенного километража');
-    // return;
-    throw new Error('топлива не хватает для введенного километража');
+    throw new LittleFuelException(
+      'Топлива не хватает для введенного километража',
+    );
   }
   //console.log('allFuel+restFuel', allFuel + restFuel);
   if (allFuel + restFuel > 55) {
     throw new Error(
-      'Кличество тплива превышает обьем бака. Уменьшите остаток топлива или увеличте пробег во время командировки',
+      'Кличество тплива превышает обьем бака. Уменьшите остаток топлива или увеличьте пробег во время командировки',
     );
   }
   //console.log('allDistanceWithAllFuel', allDistanceWithAllFuel);
@@ -122,14 +133,15 @@ const filledPeriodsByDistance = (arrMain, restFuel) => {
     const fuelForDistance = (allConstantDistance * 7.2) / 100;
     nextRestFuel = allFuel + restFuel - fuelForDistance;
     for (let i = 0; i < newTransformArray.length; i++) {
-      let finalObj = {};
+      const finalObj: FormDataItem = {} as FormDataItem;
       finalObj.fuel = newTransformArray[i].fuel;
+      finalObj.startDestination = newTransformArray[i].startDestination;
       finalObj.destination = newTransformArray[i].destination;
       finalObj.distance = newTransformArray[i].distance;
       finalArray.push(finalObj);
     }
     return {
-      filledArray: finalArray,
+      filledArray: finalArray, // return
       nextRestFuel,
     };
   }
@@ -137,7 +149,7 @@ const filledPeriodsByDistance = (arrMain, restFuel) => {
   if (distanceForEachDay <= 60) {
     nextRestFuel = 0;
     for (let i = 0; i < newTransformArray.length; i++) {
-      let finalObj = {};
+      const finalObj = {} as FormDataItem;
       if (newTransformArray[i].distance === 0) {
         finalObj.fuel = newTransformArray[i].fuel;
         finalObj.startDestination = newTransformArray[i].startDestination;
@@ -157,7 +169,7 @@ const filledPeriodsByDistance = (arrMain, restFuel) => {
       ((allConstantDistance + 60 * dayWithoutDistance) * 7.2) / 100;
     nextRestFuel = allFuel + restFuel - fuelForDistance;
     for (let i = 0; i < newTransformArray.length; i++) {
-      let finalObj = {};
+      const finalObj: FormDataItem = {} as FormDataItem;
       if (newTransformArray[i].distance === 0) {
         finalObj.fuel = newTransformArray[i].fuel;
         finalObj.startDestination = newTransformArray[i].startDestination;
@@ -174,22 +186,22 @@ const filledPeriodsByDistance = (arrMain, restFuel) => {
     }
   }
   return {
-    filledArray: finalArray,
+    filledArray: finalArray, // return filledPeriodsByDistanceResult
     nextRestFuel,
   };
 };
 //console.log('result', func1(transformArr[2], 0));
 
-const setDistance = (arr, restFuel) => {
+const setDistance = (arr: FormDataItem[][], restFuel: number) => {
   const tempRestFuel = new TempRestFuel();
   //const restFuel = initialRestFuel; // Initial restFuel value
-  let results = [];
+  const results = [] as FormDataItem[][];
 
   for (let i = 0; i < arr.length; i++) {
     //console.log('nextRestFuel', tempRestFuel.get());
     const initialRestFuel = tempRestFuel.get();
     //console.log('restFuel', restFuel);
-    const result = filledPeriodsByDistance(
+    const result: filledPeriodsByDistanceResult = filledPeriodsByDistance(
       arr[i],
       i === 0 ? restFuel - 0.5 : initialRestFuel,
     );
@@ -198,10 +210,10 @@ const setDistance = (arr, restFuel) => {
     tempRestFuel.set(result.nextRestFuel);
   }
 
-  return [].concat(...results);
+  return ([] as FormDataItem[]).concat(...results);
 };
 
-console.log(setDistance(transformArr, 18));
+//console.log(setDistance(transformArr, 18));
 
 // const periods = getPeriods(arrOfObj);
 // console.log('periods', periods);
@@ -212,9 +224,9 @@ console.log(setDistance(transformArr, 18));
 // initialRestFuel - исходный остаток топлива из селектора (не забудь сделать -1)
 // initialMileage - исходный пробег из селектора
 export const addDistanceFuelMileageData = (
-  arr,
-  initialRestFuel,
-  initialMileage,
+  arr: FormDataItem[],
+  initialRestFuel: number,
+  initialMileage: number,
 ) => {
   const periods = getPeriods(arr);
   const addedDistance = setDistance(periods, initialRestFuel);
@@ -230,10 +242,10 @@ export const addDistanceFuelMileageData = (
 //console.log(addDistanceFuelMileageData(arrOfObj, 15, 0));
 
 // передаем результат предыдущей фукции: addDistanceFuelMileageData
-export const getFullDistanceFuel = (arr) => {
-  const fullDistance = arr.reduce((acc, day) => acc + day.distance, 0);
-  const fullGetFuel = arr.reduce((acc, day) => acc + day.fuel, 0);
-  const fullFactFuel = arr.reduce((acc, day) => acc + day.dayFuel, 0);
+export const getFullDistanceFuel = (arr: FormDataItemDayFuel[]) => {
+  const fullDistance: number = arr.reduce((acc, day) => acc + day.distance, 0);
+  const fullGetFuel: number = arr.reduce((acc, day) => acc + day.fuel, 0);
+  const fullFactFuel: number = arr.reduce((acc, day) => acc + day.dayFuel, 0);
 
   return {
     fullDistance,

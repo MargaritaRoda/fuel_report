@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useStyles } from './FuelReportStyles';
 import { useSelector } from 'react-redux';
 import { selectYear } from '../../store/selectors/year.selector';
@@ -8,10 +8,7 @@ import { selectLicense } from '../../store/selectors/license.selector';
 import { selectorFuelTripData } from '../../store/selectors/fuelTripData.selector';
 import { selectorFuelReserve } from '../../store/selectors/fuelReserve.selector';
 import { selectorMileage } from '../../store/selectors/mileage.selector';
-import {
-  addDistanceFuelMileageData,
-  getFullDistanceFuel,
-} from '../calculation3';
+
 import { daysSelectorForRender } from '../../store/selectors/days.selector';
 import {
   selectMonthForCalculation,
@@ -21,6 +18,12 @@ import { daysInMonth } from '../../components/Calendar/constants';
 import { getMonthNameInGenitive, nameMonth } from './constantMonth';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
+import {
+  addDistanceFuelMileageData,
+  getFullDistanceFuel,
+} from '../calculation3';
+import { FormDataItemDayFuelStartEndMileage } from '../../store/slicers/fuelTripTypes';
+import { ErrorBoundary } from '../../components/ErrorBoundary/ErrorBoundary';
 
 interface DataForRender {
   fuel: number;
@@ -60,7 +63,7 @@ export const FuelReport = () => {
   };
   const classes = useStyles();
 
-  const fuelDistanceDataForRender: DataForRender[] = useMemo(
+  const fuelDistanceDataForRender = useMemo(
     () =>
       addDistanceFuelMileageData(
         [...initialFuelTripData],
