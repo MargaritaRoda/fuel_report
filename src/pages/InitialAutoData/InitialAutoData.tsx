@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
 
 import Button from '@mui/material/Button';
 import { Container } from '../../components/Container';
@@ -36,6 +36,13 @@ export const InitialAutoData = () => {
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
 
+  const [currMileage, setCurrMileage] = useState(
+    selectedMileage ? selectedMileage : '',
+  );
+  const [currFuelReserve, setCurrFuelReserve] = useState(
+    selectedFuelReserve ? selectedFuelReserve : '',
+  );
+
   const handleReturnPreviousStep = () => {
     navigate('/AutoInfo');
   };
@@ -63,6 +70,7 @@ export const InitialAutoData = () => {
 
   const handleSetMileage = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
+    setCurrMileage(event.target.value);
     const numMileage = parseInt(event.target.value);
     if (regExp.test(String(numMileage))) {
       dispatch(setMileage(numMileage));
@@ -71,9 +79,10 @@ export const InitialAutoData = () => {
 
   const handleSetFuelReserve = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
+    setCurrFuelReserve(event.target.value);
     const strFuelReverse = event.target.value.replace(',', '.');
     const numFuelReserve = parseFloat(strFuelReverse);
-    console.log(regExp.test(event.target.value));
+    //console.log(regExp.test(event.target.value));
     if (regExp.test(String(numFuelReserve)) && numFuelReserve <= 55) {
       dispatch(setFuelReserve(numFuelReserve));
     }
@@ -104,6 +113,7 @@ export const InitialAutoData = () => {
           variant="outlined"
           required={true}
           placeholder="12345"
+          value={currMileage}
           onChange={handleSetMileage}
           helperText="Введите начальный показатель спидометра"
           sx={{
@@ -124,6 +134,7 @@ export const InitialAutoData = () => {
           variant="outlined"
           required={true}
           placeholder="7,34"
+          value={currFuelReserve}
           onChange={handleSetFuelReserve}
           helperText="Введите остаток топлива с прошлого месяца"
           sx={{

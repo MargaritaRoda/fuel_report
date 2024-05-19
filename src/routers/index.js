@@ -5,7 +5,7 @@ import {
   Route,
 } from 'react-router-dom';
 import { SystemLayout } from '../components/SystemLayout/SystemLayout.jsx';
-import { ErrorBoundary } from '../components/ErrorBoundary/ErrorBoundary.jsx';
+import { ErrorBoundary } from '../components/ErrorBoundary/ErrorBoundary.tsx';
 import { UserEnter } from '../pages/UserEnter/UserEnter.tsx';
 import { AutoInfo } from '../pages/AutoInfo/AutoInfo.tsx';
 import { InitialAutoData } from '../pages/InitialAutoData/InitialAutoData.tsx';

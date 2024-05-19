@@ -5,12 +5,14 @@
 
 :root {
 }
+
 html,
 body,
 #root {
   min-height: 100%;
   height: 100%;
 }
+
 * {
   margin: 0;
   box-sizing: border-box;
@@ -23,10 +25,12 @@ p {
   font-size: 16px;
   margin-bottom: 15px;
 }
+
 a {
   color: inherit;
   text-decoration: none;
 }
+
 a:active {
   color: var(--general-red);
 }
@@ -38,4 +42,14 @@ h4,
 h5,
 h6 {
   font-weight: 500;
+}
+@media print {
+  /* Hide default print headers and footers */
+  @page {
+    margin: 0;
+  }
+
+  body {
+    margin: 1.15cm; /* Adjust as needed */
+  }
 }
