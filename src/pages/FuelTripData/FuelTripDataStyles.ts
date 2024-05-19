@@ -1,6 +1,6 @@
 import { createUseStyles } from 'react-jss';
 
-type StyleKey = 'FuelTripContainer' | 'tableForm';
+type StyleKey = 'FuelTripContainer' | 'tableForm' | 'errorModal';
 export const useStyles = createUseStyles<StyleKey>(() => {
   return {
     FuelTripContainer: {
@@ -12,6 +12,15 @@ export const useStyles = createUseStyles<StyleKey>(() => {
       justifySelf: 'center',
       height: 'fit-content',
     },
+    errorModal: {
+      position: 'absolute',
+      top: 20,
+      left: 20,
+      backgroundColor: 'red',
+      color: 'white',
+      padding: 10,
+      borderRadius: 5,
+      zIndex: 1000,
+    },
   };
 });
-

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useStyles } from './FuelReportStyles';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectYear } from '../../store/selectors/year.selector';
 import { selectAuto } from '../../store/selectors/auto.selector';
 import { selectUser } from '../../store/selectors/user.selector';
@@ -21,9 +21,11 @@ import { useNavigate } from 'react-router-dom';
 import {
   addDistanceFuelMileageData,
   getFullDistanceFuel,
+  LittleFuelException,
+  TooMuchFuelException,
 } from '../calculation3';
 import { FormDataItemDayFuelStartEndMileage } from '../../store/slicers/fuelTripTypes';
-import { ErrorBoundary } from '../../components/ErrorBoundary/ErrorBoundary';
+import { addErrorMessage } from '../../store/slicers/errorMessage.slicer';
 
 interface DataForRender {
   fuel: number;
@@ -38,6 +40,8 @@ interface DataForRender {
 }
 
 export const FuelReport = () => {
+  const [data, setData] = useState([] as FormDataItemDayFuelStartEndMileage[]);
+
   const month = useSelector(selectMonthForRender);
   const numberOfMonth = useSelector(selectMonthForCalculation);
   const year = useSelector(selectYear);
@@ -54,6 +58,7 @@ export const FuelReport = () => {
     nameMonth,
     numberOfMonth.nameMonth,
   );
+  const dispatch = useDispatch();
 
   const handleReturnPreviousStep = () => {
     navigate('/FuelTripData');
@@ -63,15 +68,45 @@ export const FuelReport = () => {
   };
   const classes = useStyles();
 
-  const fuelDistanceDataForRender = useMemo(
-    () =>
-      addDistanceFuelMileageData(
+  useEffect(() => {
+    try {
+      const newData = addDistanceFuelMileageData(
         [...initialFuelTripData],
         initialRestFuel,
         initialMileage,
-      ),
-    [initialFuelTripData, initialRestFuel, initialMileage],
-  );
+      );
+      setData(newData);
+    } catch (error) {
+      if (error instanceof LittleFuelException) {
+        dispatch(
+          addErrorMessage({
+            errorMessage: 'Топлива не хватает для введенного километража',
+          }),
+        );
+      }
+      if (error instanceof TooMuchFuelException) {
+        dispatch(
+          addErrorMessage({
+            errorMessage:
+              'Кличество тплива превышает обьем бака. Уменьшите остаток топлива или увеличьте пробег во время командировки',
+          }),
+        );
+      }
+      navigate('/FuelTripData');
+    }
+  }, [initialFuelTripData, initialRestFuel, initialMileage]);
+
+  const fuelDistanceDataForRender = data;
+
+  // const fuelDistanceDataForRender = useMemo(
+  //   () =>
+  //     addDistanceFuelMileageData(
+  //       [...initialFuelTripData],
+  //       initialRestFuel,
+  //       initialMileage,
+  //     ),
+  //   [initialFuelTripData, initialRestFuel, initialMileage],
+  // );
   const footerDataTable = getFullDistanceFuel(fuelDistanceDataForRender);
 
   return (

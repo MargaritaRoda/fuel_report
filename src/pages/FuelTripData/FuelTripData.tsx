@@ -3,7 +3,6 @@ import { Container } from '../../components/Container';
 import Button from '@mui/material/Button';
 import { useStyles } from './FuelTripDataStyles';
 import {
-  FormControl,
   Input,
   Table,
   TableBody,
@@ -17,6 +16,7 @@ import { selectMonthForRender } from '../../store/selectors/month.selector';
 import { setFuelTripData } from '../../store/slicers/fuelTripData.slicer';
 import { FormDataObject } from '../../store/slicers/fuelTripTypes';
 import { useNavigate } from 'react-router-dom';
+import { ErrorNotification } from '../../components/ErrorNotification/ErrorNotification';
 
 export const FuelTripData = () => {
   const classes = useStyles();
@@ -69,37 +69,38 @@ export const FuelTripData = () => {
   };
 
   return (
-    <Container className={classes.FuelTripContainer}>
-      <Button
-        variant="contained"
-        onClick={handleReturnPreviousStep}
-        sx={{
-          maxWidth: 'fit-content',
-          placeSelf: 'left',
-          margin: '16px',
-          height: '3em',
-        }}
-      >
-        Вернуться на предыдущий этап
-      </Button>
-
-      <form
-        className={classes.tableForm}
-        onSubmit={handleGetFuelTripData}
-        method="get"
-      >
-        <Table
+    <>
+      <Container className={classes.FuelTripContainer}>
+        <ErrorNotification />
+        <Button
+          variant="contained"
+          onClick={handleReturnPreviousStep}
           sx={{
             maxWidth: 'fit-content',
-            backgroundColor: 'white',
-            height: '100%',
-            gridArea: '2/1',
-            placeSelf: 'center',
-            border: 'solid 2px gray',
+            placeSelf: 'left',
+            margin: '16px',
+            height: '3em',
           }}
-          aria-label="simple table"
         >
-          <FormControl>
+          Вернуться на предыдущий этап
+        </Button>
+
+        <form
+          className={classes.tableForm}
+          onSubmit={handleGetFuelTripData}
+          method="get"
+        >
+          <Table
+            sx={{
+              maxWidth: 'fit-content',
+              backgroundColor: 'white',
+              height: '100%',
+              gridArea: '2/1',
+              placeSelf: 'center',
+              border: 'solid 2px gray',
+            }}
+            aria-label="simple table"
+          >
             <TableHead
               sx={{ borderBottom: 'solid 1px gray', fontSize: '1.4em' }}
             >
@@ -155,22 +156,26 @@ export const FuelTripData = () => {
                   </TableCell>
                 </TableRow>
               ))}
-              <Button
-                variant="contained"
-                type="submit"
-                //onSubmit={handleGetFuelTripData}
-                sx={{
-                  maxWidth: 'fit-content',
-                  placeSelf: 'left',
-                  margin: '16px',
-                }}
-              >
-                Подтвердить
-              </Button>
+              <TableRow>
+                <TableCell colSpan={5}>
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    //onSubmit={handleGetFuelTripData}
+                    sx={{
+                      maxWidth: 'fit-content',
+                      placeSelf: 'left',
+                      margin: '16px',
+                    }}
+                  >
+                    Подтвердить
+                  </Button>
+                </TableCell>
+              </TableRow>
             </TableBody>
-          </FormControl>
-        </Table>
-      </form>
-    </Container>
+          </Table>
+        </form>
+      </Container>
+    </>
   );
 };

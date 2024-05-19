@@ -12,6 +12,7 @@ import calendar from './slicers/calendar.slicer';
 import fuelReserve from './slicers/fuelReserve.slicer';
 import fuelTripData from './slicers/fuelTripData.slicer';
 import { FormDataItem } from './slicers/fuelTripTypes';
+import errorMessage, { ErrorMes } from './slicers/errorMessage.slicer';
 
 export interface RootState {
   year: number;
@@ -29,6 +30,7 @@ export interface RootState {
   fuelReserve: number;
   auto: string;
   mileage: number;
+  errorMessage: ErrorMes[];
 }
 
 const rootReducer = combineReducers({
@@ -41,6 +43,7 @@ const rootReducer = combineReducers({
   [fuelReserve.name]: fuelReserve.reducer,
   [calendar.name]: calendar.reducer,
   [fuelTripData.name]: fuelTripData.reducer,
+  [errorMessage.name]: errorMessage.reducer,
 });
 
 const persistConfig = {

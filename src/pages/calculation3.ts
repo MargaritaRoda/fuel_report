@@ -47,6 +47,7 @@ interface filledPeriodsByDistanceResult {
   nextRestFuel: number;
 }
 export class LittleFuelException extends Error {}
+export class TooMuchFuelException extends Error {}
 
 const getPeriods = (arr: FormDataItem[]) => {
   const tempRes = [];
@@ -116,7 +117,7 @@ const filledPeriodsByDistance = (arrMain: FormDataItem[], restFuel: number) => {
   }
   //console.log('allFuel+restFuel', allFuel + restFuel);
   if (allFuel + restFuel > 55) {
-    throw new Error(
+    throw new TooMuchFuelException(
       'Кличество тплива превышает обьем бака. Уменьшите остаток топлива или увеличьте пробег во время командировки',
     );
   }
