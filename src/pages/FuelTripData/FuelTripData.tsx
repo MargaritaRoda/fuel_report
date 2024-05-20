@@ -18,6 +18,7 @@ import { FormDataObject } from '../../store/slicers/fuelTripTypes';
 import { useNavigate } from 'react-router-dom';
 import { ErrorNotification } from '../../components/ErrorNotification/ErrorNotification';
 import { selectorFuelTripData } from '../../store/selectors/fuelTripData.selector';
+import { INITIAL_AUTO_DATA } from '../../constants';
 
 export const FuelTripData = () => {
   const classes = useStyles();
@@ -32,10 +33,19 @@ export const FuelTripData = () => {
   const navigate = useNavigate();
   // const days = selectedDays.sort((a,b) => a-b);
   const handleReturnPreviousStep = () => {
-    navigate('/InitialAutoData');
+    navigate(INITIAL_AUTO_DATA);
   };
 
-  const [trip, setTrip] = useState(initialFuelTripData);
+  const [trip, setTrip] = useState(
+    initialFuelTripData.length
+      ? initialFuelTripData
+      : Array(days.length).fill({
+          fuel: '',
+          distance: '',
+          startDestination: '',
+          destination: '',
+        }),
+  );
   const handleInputChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     index: number,
@@ -155,7 +165,7 @@ export const FuelTripData = () => {
                       placeholder="Борисов"
                       inputProps={ariaLabel}
                       sx={{ width: '250px' }}
-                      value={trip[index].startDestination}
+                      value={trip.length ? trip[index].startDestination : ''}
                       onChange={(e) => handleInputChange(e, index)}
                     />
                   </TableCell>
@@ -165,7 +175,7 @@ export const FuelTripData = () => {
                       placeholder="Борисов"
                       inputProps={ariaLabel}
                       sx={{ width: '250px' }}
-                      value={trip[index].destination}
+                      value={trip.length ? trip[index].destination : ''}
                       onChange={(e) => handleInputChange(e, index)}
                     />
                   </TableCell>
@@ -175,7 +185,7 @@ export const FuelTripData = () => {
                       placeholder="130"
                       inputProps={ariaLabel}
                       sx={{ width: '200px' }}
-                      value={trip[index].distance}
+                      value={trip.length ? trip[index].distance : ''}
                       onChange={(e) => handleInputChange(e, index)}
                     />
                   </TableCell>

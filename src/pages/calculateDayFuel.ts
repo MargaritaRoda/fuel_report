@@ -4,6 +4,7 @@ import {
   FormDataItemDayFuelStartEnd,
   FormDataItemDayFuelStartEndMileage,
 } from '../store/slicers/fuelTripTypes';
+import { STANDARD_fUEL_CONSUMPTION } from '../constants';
 
 const fuelFromState = [
   { fuel: 0, destination: 'Minsk', distance: 50 },
@@ -33,7 +34,7 @@ class TempRestFuelNextStep {
 //нужно добавить ключ dayFuel
 export const addDayFuel = (arr: FormDataItem[]): FormDataItemDayFuel[] => {
   return arr.map((day) => {
-    const dayFuel = (day.distance * 7.2) / 100;
+    const dayFuel = (day.distance * STANDARD_fUEL_CONSUMPTION) / 100;
     return { ...day, dayFuel };
   });
 };

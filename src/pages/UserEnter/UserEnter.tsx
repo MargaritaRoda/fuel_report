@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../store/slicers/user.slicer';
 import { selectUser } from '../../store/selectors/user.selector';
+import { AUTO_INFO } from '../../constants';
 
 export const UserEnter = () => {
   const regExp = new RegExp(/^[.а-яА-ЯёЁ\s]+$/);
@@ -39,7 +40,7 @@ export const UserEnter = () => {
     console.log(user, email);
     if (regExp.test(user)) {
       dispatch(login({ username: user, email: email }));
-      navigate('/AutoInfo');
+      navigate(AUTO_INFO);
     } else {
       setNotice(false);
       console.log(notice);

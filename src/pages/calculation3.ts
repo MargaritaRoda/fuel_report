@@ -7,6 +7,11 @@ import {
   FormDataItem,
   FormDataItemDayFuel,
 } from '../store/slicers/fuelTripTypes';
+import {
+  FUEL_TANK_VOLUME,
+  MAX_DAILY_MILEAGE,
+  STANDARD_fUEL_CONSUMPTION,
+} from '../constants';
 
 const transformArr = [
   [
@@ -36,7 +41,7 @@ const arrOfObj = [
   { fuel: 0, destination: 'Minsk', distance: 0 },
   { fuel: 0, destination: 'Minsk', distance: 0 },
   { fuel: 25, destination: 'Minsk', distance: 0 },
-  { fuel: 0, destination: 'gomel', distance: 200 }, //200
+  { fuel: 0, destination: 'Gomel', distance: 200 }, //200
   { fuel: 0, destination: 'Minsk', distance: 0 }, //25
   { fuel: 10, destination: 'Minsk', distance: 0 },
   { fuel: 0, destination: 'Minsk', distance: 0 },
@@ -109,16 +114,17 @@ const filledPeriodsByDistance = (arrMain: FormDataItem[], restFuel: number) => {
   // console.log('allConstantDistance', allConstantDistance);
   // console.log('dayWithoutDistance', dayWithoutDistance);
 
-  const allDistanceWithAllFuel = ((restFuel + allFuel) * 100) / 7.2;
+  const allDistanceWithAllFuel =
+    ((restFuel + allFuel) * 100) / STANDARD_fUEL_CONSUMPTION;
   if (allDistanceWithAllFuel < allConstantDistance) {
     throw new LittleFuelException(
       'Топлива не хватает для введенного километража',
     );
   }
   //console.log('allFuel+restFuel', allFuel + restFuel);
-  if (allFuel + restFuel > 55) {
+  if (allFuel + restFuel > FUEL_TANK_VOLUME) {
     throw new TooMuchFuelException(
-      'Кличество тплива превышает обьем бака. Уменьшите остаток топлива или увеличьте пробег во время командировки',
+      'Кличество топлива превышает обьем бака. Уменьшите остаток топлива или увеличьте пробег во время командировки',
     );
   }
   //console.log('allDistanceWithAllFuel', allDistanceWithAllFuel);
@@ -147,7 +153,7 @@ const filledPeriodsByDistance = (arrMain: FormDataItem[], restFuel: number) => {
     };
   }
 
-  if (distanceForEachDay <= 60) {
+  if (distanceForEachDay <= MAX_DAILY_MILEAGE) {
     nextRestFuel = 0;
     for (let i = 0; i < newTransformArray.length; i++) {
       const finalObj = {} as FormDataItem;
@@ -167,7 +173,9 @@ const filledPeriodsByDistance = (arrMain: FormDataItem[], restFuel: number) => {
     }
   } else {
     const fuelForDistance =
-      ((allConstantDistance + 60 * dayWithoutDistance) * 7.2) / 100;
+      ((allConstantDistance + MAX_DAILY_MILEAGE * dayWithoutDistance) *
+        STANDARD_fUEL_CONSUMPTION) /
+      100;
     nextRestFuel = allFuel + restFuel - fuelForDistance;
     for (let i = 0; i < newTransformArray.length; i++) {
       const finalObj: FormDataItem = {} as FormDataItem;
@@ -175,7 +183,7 @@ const filledPeriodsByDistance = (arrMain: FormDataItem[], restFuel: number) => {
         finalObj.fuel = newTransformArray[i].fuel;
         finalObj.startDestination = newTransformArray[i].startDestination;
         finalObj.destination = newTransformArray[i].destination;
-        finalObj.distance = 60;
+        finalObj.distance = MAX_DAILY_MILEAGE;
       } else {
         finalObj.fuel = newTransformArray[i].fuel;
         finalObj.startDestination = newTransformArray[i].startDestination;
@@ -195,7 +203,6 @@ const filledPeriodsByDistance = (arrMain: FormDataItem[], restFuel: number) => {
 
 const setDistance = (arr: FormDataItem[][], restFuel: number) => {
   const tempRestFuel = new TempRestFuel();
-  //const restFuel = initialRestFuel; // Initial restFuel value
   const results = [] as FormDataItem[][];
 
   for (let i = 0; i < arr.length; i++) {

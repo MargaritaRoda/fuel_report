@@ -22,6 +22,7 @@ import { setFuelReserve } from '../../store/slicers/fuelReserve.slicer';
 import { selectorMileage } from '../../store/selectors/mileage.selector';
 import { selectorFuelReserve } from '../../store/selectors/fuelReserve.selector';
 import { useNavigate } from 'react-router-dom';
+import { AUTO_INFO, FUEL_TRIP_DATA } from '../../constants';
 
 export const InitialAutoData = () => {
   const classes = useStyles();
@@ -44,7 +45,7 @@ export const InitialAutoData = () => {
   );
 
   const handleReturnPreviousStep = () => {
-    navigate('/AutoInfo');
+    navigate(AUTO_INFO);
   };
   const handleChangeMonth = (
     event: SelectChangeEvent<string>,
@@ -91,7 +92,7 @@ export const InitialAutoData = () => {
   const handleGetAutoInfo = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (selectedDays && selectedMileage && selectedFuelReserve) {
-      navigate('/FuelTripData');
+      navigate(FUEL_TRIP_DATA);
     }
   };
 
@@ -215,6 +216,7 @@ export const InitialAutoData = () => {
             >
               <MenuItem value={'2023'}>2023</MenuItem>
               <MenuItem value={'2024'}>2024</MenuItem>
+              <MenuItem value={'2025'}>2025</MenuItem>
             </Select>
           </FormControl>
         </Box>

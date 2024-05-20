@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useStyles } from './FuelReportStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectYear } from '../../store/selectors/year.selector';
@@ -8,7 +8,6 @@ import { selectLicense } from '../../store/selectors/license.selector';
 import { selectorFuelTripData } from '../../store/selectors/fuelTripData.selector';
 import { selectorFuelReserve } from '../../store/selectors/fuelReserve.selector';
 import { selectorMileage } from '../../store/selectors/mileage.selector';
-
 import { daysSelectorForRender } from '../../store/selectors/days.selector';
 import {
   selectMonthForCalculation,
@@ -26,18 +25,7 @@ import {
 } from '../calculation3';
 import { FormDataItemDayFuelStartEndMileage } from '../../store/slicers/fuelTripTypes';
 import { addErrorMessage } from '../../store/slicers/errorMessage.slicer';
-
-interface DataForRender {
-  fuel: number;
-  startDestination: string;
-  destination: string;
-  distance: number;
-  dayFuel: number;
-  startDayFuel: number;
-  endDayFuel: number;
-  startDayMileage: number;
-  endDayMileage: number;
-}
+import { FUEL_TRIP_DATA } from '../../constants';
 
 export const FuelReport = () => {
   const [data, setData] = useState([] as FormDataItemDayFuelStartEndMileage[]);
@@ -61,7 +49,7 @@ export const FuelReport = () => {
   const dispatch = useDispatch();
 
   const handleReturnPreviousStep = () => {
-    navigate('/FuelTripData');
+    navigate(FUEL_TRIP_DATA);
   };
   const handlePrint = () => {
     window.print();
@@ -88,7 +76,7 @@ export const FuelReport = () => {
         dispatch(
           addErrorMessage({
             errorMessage:
-              'Кличество тплива превышает обьем бака. Уменьшите остаток топлива или увеличьте пробег во время командировки',
+              'Кличество тoплива превышает обьем бака. Уменьшите остаток топлива или увеличьте пробег во время командировки',
           }),
         );
       }
@@ -98,15 +86,6 @@ export const FuelReport = () => {
 
   const fuelDistanceDataForRender = data;
 
-  // const fuelDistanceDataForRender = useMemo(
-  //   () =>
-  //     addDistanceFuelMileageData(
-  //       [...initialFuelTripData],
-  //       initialRestFuel,
-  //       initialMileage,
-  //     ),
-  //   [initialFuelTripData, initialRestFuel, initialMileage],
-  // );
   const footerDataTable = getFullDistanceFuel(fuelDistanceDataForRender);
 
   return (

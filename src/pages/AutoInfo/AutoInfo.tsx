@@ -10,6 +10,7 @@ import { addLicense } from '../../store/slicers/license.slicer';
 import { useNavigate } from 'react-router-dom';
 import { selectAuto } from '../../store/selectors/auto.selector';
 import { selectLicense } from '../../store/selectors/license.selector';
+import { INITIAL_AUTO_DATA } from '../../constants';
 
 export const AutoInfo = () => {
   const dispatch = useDispatch();
@@ -42,7 +43,7 @@ export const AutoInfo = () => {
     const { auto, license } = data;
     dispatch(addAuto(auto));
     dispatch(addLicense(license));
-    navigate('/InitialAutoData');
+    navigate(INITIAL_AUTO_DATA);
   };
 
   return (

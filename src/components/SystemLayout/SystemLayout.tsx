@@ -3,7 +3,8 @@ import { Provider } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { purple } from '@mui/material/colors';
-import { store } from '../../store';
+import { persistor, store } from '../../store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 const theme = createTheme({
   palette: {
@@ -16,11 +17,11 @@ export const SystemLayout = () => {
   return (
     <>
       <Provider store={store}>
-      {/*  <PersistGate loader={null} persistor={persistor}>*/}
-      <ThemeProvider theme={theme}>
-        <Outlet />
-      </ThemeProvider>
-      {/*  </PersistGate>*/}
+        <PersistGate persistor={persistor}>
+          <ThemeProvider theme={theme}>
+            <Outlet />
+          </ThemeProvider>
+        </PersistGate>
       </Provider>
     </>
   );

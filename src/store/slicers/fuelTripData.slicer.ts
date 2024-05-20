@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { FormDataItem, FormDataObject } from './fuelTripTypes';
+import { BASE_CITY } from '../../constants';
 
 const INITIAL_STATE: FormDataItem[] = [];
 
@@ -38,7 +39,7 @@ const fuelTripData = createSlice({
   initialState: INITIAL_STATE,
   reducers: {
     setFuelTripData: (state, action: PayloadAction<FormDataObject>) => {
-      return [...autoCompleteObjKey(action.payload, 'Минск')];
+      return [...autoCompleteObjKey(action.payload, BASE_CITY)];
     },
   },
 });
