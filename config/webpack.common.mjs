@@ -16,9 +16,9 @@ export const config = {
   output: {
     clean: true,
     path: path.resolve(__dirname, '../dist'),
-    filename: '[name].[hash].js',
+    filename: 'bundle.js', //[name].[hash].js
     assetModuleFilename: 'static/media/[name].[hash][ext]',
-    publicPath: '/',
+    publicPath: '/fuel_report/',
   },
   module: {
     rules: [
